@@ -5,19 +5,20 @@ const Op = db.Sequelize.Op;
 // Used to Create a Book
 exports.create = (req, res) => {
   // Validate request
-  if (req.body.title === undefined) {
+  if (req.body.Title === undefined) {
     const error = new Error("Title cannot be empty for book!")
     error.statusCode = 400;
     throw error;
-  } else if (req.body.numPages === undefined) {
+  } else if (req.body.NumPages === undefined) {
     const error = new Error("Number of pages cannot be empty")
     error.statusCode = 400;
     throw error;
-  } else if (req.body.numPages < 0) {
+  } else if (req.body.NumPages < 0) {
     const error = new Error("Number of pages cannot be negative")
     error.statusCode = 400;
     throw error;
   }
+  // TODO: require Authorid, AuthorFullName, and Genre
 
   // Create a book
   const book = {
@@ -25,6 +26,7 @@ exports.create = (req, res) => {
     numPages: req.body.numPages,
     link: req.body.link,
   };
+  // TODO: Create BookAuthor and BookGenre entries
   
   // Save book in the database
   Book.create(book)
@@ -37,6 +39,7 @@ exports.create = (req, res) => {
           err.message || "Some error ocurred while creating the Book.",
         });
     });
+    // TODO: Save bookAuthor and bookGenre in the database
 };
 
 // Used to Fetch All Books of the system
