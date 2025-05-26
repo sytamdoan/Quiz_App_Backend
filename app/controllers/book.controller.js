@@ -75,7 +75,7 @@ exports.findAllByGenre = (req, res) => {
 };
 
 // Used to Fetch Book Suggestions of the system for the specific user
-exports.findAllByGenre = (req, res) => {
+exports.findAllSuggestionsByUser = (req, res) => {
   // TODO
 };
 
