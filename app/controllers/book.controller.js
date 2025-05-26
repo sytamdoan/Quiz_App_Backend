@@ -138,5 +138,24 @@ exports.update = (req, res) => {
 
 // Used to Delete an Existing Book
 exports.delete = (req, res) => {
-  // TODO
-}
+  const id = req.params.id;
+  Book.destroy({
+    where: { id: id },
+  })
+    .then((number) => {
+      if (number == 1) {
+        res.send({
+          message: "Book was deleted successfully!",
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Book with id=${id}. Maybe Book was not found!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Could not delete Book with id=" + id,
+      });
+    });
+};
