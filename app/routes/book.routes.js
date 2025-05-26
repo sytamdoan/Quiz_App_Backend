@@ -19,13 +19,13 @@ module.exports = (app) => {
   router.get("/Books/:id", Book.findOne);
 
   // Used to Create a Book
-  router.post("/Books/", [authenticateRoute], Book.create);
+  router.post("/Books/", /*[authenticateRoute],*/ Book.create); // TODO: Remove comment after adding admin role
 
   // Used to Modify an Existing Book
-  router.put("/Books/:id", [authenticateRoute], Book.update);
+  router.put("/Books/:id", /*[authenticateRoute],*/ Book.update); // TODO: Remove comment after adding admin role
   
   // Used to Delete an Existing Book
-  router.delete("/Books/:id", [authenticateRoute], Book.delete);
+  router.delete("/Books/:id", /*[authenticateRoute],*/ Book.delete); // TODO: Remove comment after adding admin role
 
 
   app.use("/bookshelfapi", router);
