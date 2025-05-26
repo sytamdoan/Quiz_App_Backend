@@ -106,7 +106,34 @@ exports.findOne = (req, res) => {
 
 // Used to Modify an Existing Book
 exports.update = (req, res) => {
-  // TODO
+  const id = req.params.bookId;
+
+  const book = {
+    title: req.body.Title,
+    numPages: req.body.NumPages,
+    link: req.body.Link,
+  };
+  
+  Book.update(book, {
+    where: {id: id}
+  })
+    .then((number) =>{
+      if (number == 1) {
+        res.send({
+          message: "Book was updated successfully.",
+        });
+      } else {
+        res.send({
+          message: `Cannot update Book with id=${id}. Maybe Book was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error updating Book with id=" + id,
+      });
+    });
+
 }
 
 // Used to Delete an Existing Book
