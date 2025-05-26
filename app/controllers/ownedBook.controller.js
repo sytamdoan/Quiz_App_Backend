@@ -4,14 +4,20 @@ const Book = db.Book;
 const ReadingStatusTypes = db.ReadingStatusTypes;
 const Op = db.Sequelize.Op;
 
- exports.create = (req, res) => {
+exports.create = (req, res) => {
+  // Validate request
+  if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
+    return res.status(400).json({ message: "Title can't be empty broooo!" });
+  } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
+    return res.status(400).json({ message: "No letters in number fields broooo!" });
+  }   
+    
   Book.create({
     title: req.body.title,
     numPages: req.body.numPages,
     link: req.body.link
   })
   .then((newBook) => {
-    // Step 2: Use newBook.id to link to OwnedBook
     const newOwnedBook = {
       Userid: 1, // Replace with session value later
       Bookid: newBook.id,
@@ -20,8 +26,7 @@ const Op = db.Sequelize.Op;
       dateBought: req.body.dateBought,
       userNotes: req.body.userNotes,
     };
-
-    // Step 3: Create OwnedBook
+      
     return OwnedBook.create(newOwnedBook);
   })
   .then((createdOwnedBook) => {
@@ -49,7 +54,6 @@ exports.findAll = (req, res) => {
              },
             {
                 model: db.ReadingStatusTypes,
-                required: true
             }
         ]
     })
@@ -81,18 +85,32 @@ exports.findOne = (req, res) => {
 
 exports.update = async (req, res) => {
     const id = req.params.id;
-    const paidAmount = parseInt(req.body.paidAmount, 10);
-    const numPages = parseInt(req.body.Book?.numPages, 10);
-    const statusId = parseInt(req.body.ReadingStatusTypesid, 10);
     
-    // Validate
-    if (!req.body.Book?.title || req.body.Book?.title.trim() === "") {
-        return res.status(400).json({ message: "Title can't be empty!" });
-        }
-    
-    if (isNaN(paidAmount) || isNaN(numPages) || isNaN(statusId)) {
-        return res.status(400).json({ message: "One or more numeric fields are invalid." });
-    }
+    // const rawTitle = req.body.Book?.title;
+    // const rawNumPages = req.body.Book?.numPages;
+    // const rawPaidAmount = req.body.paidAmount;
+    // const rawStatusId = req.body.ReadingStatusTypesid;
+
+    // // Explicit numeric validation
+    // const paidAmount = Number(rawPaidAmount);
+    // const numPages = Number(rawNumPages);
+    // const statusId = Number(rawStatusId);
+
+    // if (!rawTitle || rawTitle.trim() === "") {
+    //     return res.status(400).json({ message: "Title can't be empty!" });
+    // } else if (
+    //     isNaN(paidAmount) ||
+    //     isNaN(numPages) ||
+    //     isNaN(statusId)
+    // ) {
+    //     return res.status(400).json({ message: "One or more numeric fields are invalid." });
+    // }
+    // Validate request
+  if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
+    return res.status(400).json({ message: "Title can't be empty broooo!" });
+  } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
+    return res.status(400).json({ message: "No letters in number fields broooo!" });
+  }     
 
   try {
     const ownedBook = await OwnedBook.findByPk(id);

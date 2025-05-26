@@ -8,13 +8,15 @@ module.exports = (sequelize, Sequelize) => {
       },
       title: {
         type: Sequelize.STRING,
-        //allowNull: false,
+        allowNull: false,
       },
       numPages: {
         type: Sequelize.INTEGER,
+        allowNull: true,
       },
       link: {
-        type: Sequelize.STRING(512)
+        type: Sequelize.STRING(512),
+        allowNull: true
       }
     },
     {
