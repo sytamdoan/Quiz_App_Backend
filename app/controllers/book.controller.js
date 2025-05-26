@@ -22,9 +22,9 @@ exports.create = (req, res) => {
 
   // Create a book
   const book = {
-    title: req.body.title,
-    numPages: req.body.numPages,
-    link: req.body.link,
+    title: req.body.Title,
+    numPages: req.body.NumPages,
+    link: req.body.Link,
   };
   // TODO: Create BookAuthor and BookGenre entries
   
@@ -84,7 +84,24 @@ exports.findAllSuggestionsByUser = (req, res) => {
 
 // Used to Fetch a Book by its id
 exports.findOne = (req, res) => {
-  // TODO
+  const id = req.params.Id;
+  Book.findOne({
+    where: {id: id}
+  })
+    .then((data) => {
+      if (data) {
+        res.send(data)
+      } else {
+        res.status(404).send({
+          message: `not find Book with id=${id}.`
+        })
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error retrieving Book with id=" + id,
+      })
+    });
 };
 
 // Used to Modify an Existing Book
