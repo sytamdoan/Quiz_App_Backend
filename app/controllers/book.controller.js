@@ -69,17 +69,17 @@ exports.findAll = (req, res) => {
 
 // Used to Fetch All Books of the system by author
 exports.findAllByAuthor = (req, res) => {
-  // TODO
+  // TODO: Requires BookAuthor (and consequently, Author) table
 };
 
 // Used to Fetch All Books of the system by genre
 exports.findAllByGenre = (req, res) => {
-  // TODO
+  // TODO: Requires BookGenre (and consequently, Genre) table
 };
 
 // Used to Fetch Book Suggestions of the system for the specific user
 exports.findAllSuggestionsByUser = (req, res) => {
-  // TODO
+  // TODO: Requires knowledge of LLM
 };
 
 // Used to Fetch a Book by its id
