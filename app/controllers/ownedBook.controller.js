@@ -5,7 +5,6 @@ const ReadingStatusTypes = db.ReadingStatusTypes;
 const Op = db.Sequelize.Op;
 
  exports.create = (req, res) => {
-  // Step 1: Create a Book
   Book.create({
     title: req.body.title,
     numPages: req.body.numPages,
@@ -15,7 +14,7 @@ const Op = db.Sequelize.Op;
     // Step 2: Use newBook.id to link to OwnedBook
     const newOwnedBook = {
       Userid: 1, // Replace with session value later
-      Bookid: newBook.id, // ✅ CORRECT
+      Bookid: newBook.id,
       ReadingStatusTypesid: req.body.ReadingStatusTypesid || 1,
       paidAmount: req.body.paidAmount,
       dateBought: req.body.dateBought,
@@ -127,39 +126,6 @@ exports.update = async (req, res) => {
     res.status(500).json({ message: err.message || "Error updating data" });
     }
 };
-
-
-// // Update a OwnedBook by the id in the request
-// exports.update = (req, res) => {
-
-//   if (req.body.title === undefined || req.body.title === "") {
-//     const error = new Error("Title cant be empty!");
-//     error.statusCode = 400;
-//     throw error;
-//   } 
-
-//   const id = req.params.id;
-  
-//   OwnedBook.update(req.body, {
-//     where: { id: id },
-//   })
-//     .then((num) => {
-//       if (num == 1) {
-//         res.send({
-//           message: "OwnedBook was updated successfully.",
-//         });
-//       } else {
-//         res.send({
-//           message: `Cannot update OwnedBook with id=${id}. Maybe OwnedBook was not found or req.body is empty!`,
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: err.message || "Error updating OwnedBook with id=" + id,
-//       });
-//     });
-// };
 
 // Delete a OwnedBook with the specified id in the request
 exports.delete = (req, res) => {

@@ -32,11 +32,6 @@ db.Book.associate?.(db);
 db.ReadingStatusTypes.associate?.(db);
 db.OwnedBook.associate?.(db);
 
-
-// db.Book.associate({ OwnedBook: db.OwnedBook });
-// db.ReadingStatusTypes.associate({ OwnedBook: db.OwnedBook });
-// db.OwnedBook.associate({ Book: db.Book, ReadingStatusTypes: db.ReadingStatusTypes });
-
 // foreign key for session
 db.user.hasMany(
   db.session,
