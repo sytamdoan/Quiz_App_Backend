@@ -24,6 +24,19 @@ db.recipeIngredient = require("./recipeIngredient.model.js")(
 db.session = require("./session.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 
+db.Book = require('./book.model.js')(sequelize, Sequelize);
+db.OwnedBook = require('./ownedBook.model.js')(sequelize, Sequelize);
+db.ReadingStatusTypes = require('./readingStatusTypes.model.js')(sequelize, Sequelize);
+
+db.Book.associate?.(db);
+db.ReadingStatusTypes.associate?.(db);
+db.OwnedBook.associate?.(db);
+
+
+// db.Book.associate({ OwnedBook: db.OwnedBook });
+// db.ReadingStatusTypes.associate({ OwnedBook: db.OwnedBook });
+// db.OwnedBook.associate({ Book: db.Book, ReadingStatusTypes: db.ReadingStatusTypes });
+
 // foreign key for session
 db.user.hasMany(
   db.session,
