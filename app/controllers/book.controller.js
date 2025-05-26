@@ -93,4 +93,3 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   // TODO
 }
-router.delete("/Books/:id", [authenticateRoute], Book.delete);
