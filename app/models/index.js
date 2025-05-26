@@ -22,6 +22,12 @@ db.sequelize = sequelize;
 //   Sequelize
 // );
 db.book = require("./book.model.js")(sequelize, Sequelize);
+db.author_book = require("./author_book.model.js")(sequelize, Sequelize);
+db.author = require("./author.model.js")(sequelize, Sequelize);
+db.genre_book = require("./genre_book.model.js")(sequelize, Sequelize);
+db.genre = require("./genre.model.js")(sequelize, Sequelize);
+db.publisher_book = require("./publisher_book.model.js")(sequelize, Sequelize);
+db.publisher = require("./publisher.model.js")(sequelize, Sequelize);
 db.session = require("./session.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 
@@ -36,6 +42,16 @@ db.session.belongsTo(
   { as: "user" },
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
+
+//Foreign Key for Author_Books
+db.author.belongsToMany(db.book, { as: 'books', through: 'author_book' });
+db.book.belongsToMany(db.author, { as: 'authors', through: 'author_book' });
+//Foreign Key for Genre_Books
+db.genre.belongsToMany(db.book, { as: 'books', through: 'genre_book' });
+db.book.belongsToMany(db.genre, { as: 'genres', through: 'genre_book' });
+//Foreign Key for Publisher_Books
+db.publisher.belongsToMany(db.book, { as: 'books', through: 'publisher_book' });
+db.book.belongsToMany(db.publisher, { as: 'publishers', through: 'publisher_book' });
 
 // foreign key for recipe
 // db.user.hasMany(

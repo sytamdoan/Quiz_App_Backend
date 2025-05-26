@@ -45,7 +45,10 @@ exports.create = (req, res) => {
 
 // Find all Created Books
 exports.findAllPublished = (req, res) => {
-  book.findAll({where:null})
+  book.findAll({
+    where:null,
+    include: ['authors','genres','publishers'],
+  })
     .then((data) => {
       if (data) {
         res.send(data);
@@ -67,6 +70,7 @@ exports.findOne = (req, res) => {
   const id = req.params.id;
   book.findAll({
     where: { Id: id },
+    include: ['authors','genres','publishers'],
   })
     .then((data) => {
       if (data) {
