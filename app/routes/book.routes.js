@@ -22,7 +22,7 @@ module.exports = (app) => {
   router.post("/Books/", /*[authenticateRoute],*/ Book.create); // TODO: Remove comment after adding admin role
 
   // Used to Modify an Existing Book
-  router.put("/Books/:id", /*[authenticateRoute],*/ Book.update); // TODO: Remove comment after adding admin role
+  router.put("/Books/:bookId", /*[authenticateRoute],*/ Book.update); // TODO: Remove comment after adding admin role
   
   // Used to Delete an Existing Book
   router.delete("/Books/:id", /*[authenticateRoute],*/ Book.delete); // TODO: Remove comment after adding admin role
