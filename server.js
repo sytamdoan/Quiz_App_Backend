@@ -7,7 +7,16 @@ const app = express();
 
 const db = require("./app/models");
 
-db.sequelize.sync();
+const seedStatusTypes = require('./seed/seedStatus');
+
+// Sync DB
+db.sequelize.sync().then(async () => {
+  console.log("Database synced.");
+
+  // Seed only if needed
+  await seedStatusTypes(db); // 👈 Run seeder with conditional logic
+});
+//db.sequelize.sync();
 
 var corsOptions = {
   origin: "http://localhost:8081",
