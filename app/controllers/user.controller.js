@@ -46,6 +46,7 @@ exports.create = async (req, res) => {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           email: req.body.email,
+          role: req.body.role,
           password: hash,
           salt: salt,
         };

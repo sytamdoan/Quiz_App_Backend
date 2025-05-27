@@ -22,6 +22,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BLOB,
       allowNull: false,
     },
+    role: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
   });
 
   return User;
