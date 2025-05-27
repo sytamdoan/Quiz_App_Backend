@@ -33,7 +33,7 @@ exports.create = async (req, res) => {
   })
     .then(async (data) => {
       if (data) {
-        return "This email is already in use.";
+        return res.status(400).send({ message: "Email Already In Use."});
       } else {
         console.log("email not found");
 
