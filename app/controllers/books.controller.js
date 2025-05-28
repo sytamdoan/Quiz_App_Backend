@@ -1,5 +1,5 @@
 const db = require("../models");
-const Book = db.book;
+const Books = db.books;
 const Op = db.Sequelize.Op;
 
 // Used to Create a Book
@@ -29,7 +29,7 @@ exports.create = (req, res) => {
   // TODO: Create BookAuthor and BookGenre entries
   
   // Save book in the database
-  Book.create(book)
+  Books.create(book)
     .then((data) => {
       res.send(data)
     })
@@ -55,7 +55,7 @@ exports.findAll = (req, res) => {
 
   // Find and return the desired data
   // TODO: update to also return genre and authors
-  Book.findAll({ where: condition, order: [["title", "ASC"]] })
+  Books.findAll({ where: condition, order: [["title", "ASC"]] })
     .then((data) => {
       res.send(data);
     })
@@ -85,7 +85,7 @@ exports.findAllSuggestionsByUser = (req, res) => {
 // Used to Fetch a Book by its id
 exports.findOne = (req, res) => {
   const id = req.params.Id;
-  Book.findOne({
+  Books.findOne({
     where: {id: id}
   })
     .then((data) => {
@@ -114,7 +114,7 @@ exports.update = (req, res) => {
     link: req.body.Link,
   };
   
-  Book.update(book, {
+  Books.update(book, {
     where: {id: id}
   })
     .then((number) =>{
@@ -139,7 +139,7 @@ exports.update = (req, res) => {
 // Used to Delete an Existing Book
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Book.destroy({
+  Books.destroy({
     where: { id: id },
   })
     .then((number) => {

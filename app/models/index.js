@@ -25,7 +25,7 @@ db.session = require("./session.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 
 // start of models for bookshelf app
-db.book = require("./book.model.js")(sequelize, Sequelize);
+db.books = require("./books.model.js")(sequelize, Sequelize);
 
 // foreign key for session
 db.user.hasMany(
