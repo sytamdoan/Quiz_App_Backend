@@ -5,12 +5,8 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Author
 exports.create = (req, res) => {
   // Validate request
-  if (req.body.firstName === undefined || req.body.firstName === "") {
-    const error = new Error("First name cant be empty!");
-    error.statusCode = 400;
-    throw error;
-  } else if (req.body.lastName === undefined || req.body.lastName === "") {
-    const error = new Error("Last name cant be empty!");
+  if (req.body.lastName === undefined || req.body.lastName === "") {
+    const error = new Error("Last name can't be empty!");
     error.statusCode = 400;
     throw error;
   }
