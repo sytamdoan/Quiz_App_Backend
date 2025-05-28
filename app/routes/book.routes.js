@@ -4,19 +4,19 @@ module.exports = (app) => {
   var router = require("express").Router();
 
   // Create a new Book
-  router.post("/books/", [authenticateRoute], Book.create);
+  router.post("/Books/", [authenticateRoute], Book.create);
 
   // Retrieve all published Books
-  router.get("/books", Book.findAllPublished);
+  router.get("/Books", Book.findAllPublished);
 
   // Retrieve a single Book with id
-  router.get("/books:id", Book.findOne);
+  router.get("/Books/:id", Book.findOne);
 
   // Update a Book with id
-  router.put("/books:id", [authenticateRoute], Book.update);
+  router.put("/Books/:id", [authenticateRoute], Book.update);
 
   // Delete a Book with id
-  router.delete("/books:id", [authenticateRoute], Book.delete);
+  router.delete("/Books/:id", [authenticateRoute], Book.delete);
 
   app.use("/bookshelfapi", router);
 };
