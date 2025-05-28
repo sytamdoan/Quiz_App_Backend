@@ -33,6 +33,8 @@ require("./app/routes/recipe.routes")(app);
 require("./app/routes/recipeStep.routes")(app);
 require("./app/routes/recipeIngredient.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/author.routes")(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3201;

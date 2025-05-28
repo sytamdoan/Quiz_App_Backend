@@ -16,6 +16,7 @@ db.sequelize = sequelize;
 
 db.ingredient = require("./ingredient.model.js")(sequelize, Sequelize);
 db.recipe = require("./recipe.model.js")(sequelize, Sequelize);
+db.author = require("./author.model.js")(sequelize, Sequelize);
 db.recipeStep = require("./recipeStep.model.js")(sequelize, Sequelize);
 db.recipeIngredient = require("./recipeIngredient.model.js")(
   sequelize,
