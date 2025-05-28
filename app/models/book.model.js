@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
     publicationDate: {
-      type: Sequelize.STRING,
+      type: 'TIMESTAMP',
       allowNull: true,
     },
     link: {
