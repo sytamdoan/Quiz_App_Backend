@@ -7,7 +7,7 @@ module.exports = (app) => {
   router.post("/Books/", [authenticateRoute], Book.create);
 
   // Retrieve all published Books
-  router.get("/Books", Book.findAllPublished);
+  router.get("/Books", Book.findAll);
 
   // Retrieve a single Book with id
   router.get("/Books/:id", Book.findOne);

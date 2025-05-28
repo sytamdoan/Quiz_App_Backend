@@ -35,7 +35,7 @@ exports.create = (req, res) => {
 };
 
 // Find all Created Books
-exports.findAllPublished = (req, res) => {
+exports.findAll = (req, res) => {
   book.findAll({
     where:null,
     include: ['authors','genres','publishers'],
