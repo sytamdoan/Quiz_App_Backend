@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   const Genre = sequelize.define("genre", {
-    Descriptor: {
+    descriptor: {
       type: Sequelize.STRING,
       allowNull: false,
     }

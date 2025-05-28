@@ -4,31 +4,22 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Recipe
 exports.create = (req, res) => {
   // Validate request
-  if (req.body.Title === undefined) {
-    const error = new Error("Name cannot be empty for recipe!");
+  if (req.body.title === undefined) {
+    const error = new Error("Title cannot be empty for Book!");
     error.statusCode = 400;
     throw error;
-  } else if (req.body.NumPages === undefined) {
-    const error = new Error("Description cannot be empty for recipe!");
-    error.statusCode = 400;
-    throw error;
-  } else if (req.body.PublicationDate === undefined) {
-    const error = new Error("Servings cannot be empty for recipe!");
-    error.statusCode = 400;
-    throw error;
-  } else if (req.body.Link === undefined) {
-    const error = new Error("Time cannot be empty for recipe!");
+  } else if (req.body.numPages === undefined) {
+    const error = new Error("Number of Pages cannot be empty for Book!");
     error.statusCode = 400;
     throw error;
   }
 
   // Create a Book
   const book = {
-    Id: 0,
-    Title: req.body.Title,
-    NumPages: req.body.NumPages,
-    Link: req.body.Link,
-    IsDeleted: false,
+    title: req.body.title,
+    numPages: req.body.numPages,
+    publicationDate: req.body.publicationDate,
+    link: req.body.link,
   };
   // Save Book in the database
   book.create(book)
@@ -69,7 +60,7 @@ exports.findAllPublished = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
   book.findAll({
-    where: { Id: id },
+    where: { id: id },
     include: ['authors','genres','publishers'],
   })
     .then((data) => {
@@ -91,7 +82,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
   book.update(req.body, {
-    where: { Id: id },
+    where: { id: id },
   })
     .then((number) => {
       if (number == 1) {
@@ -113,9 +104,8 @@ exports.update = (req, res) => {
 // Delete a Book with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  req.body.IsDeleted = true;
-  book.update(req.body,{
-    where: { Id: id },
+  book.destroy({
+    where: { id: id },
   })
     .then((number) => {
       if (number == 1) {

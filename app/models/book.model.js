@@ -1,18 +1,18 @@
 module.exports = (sequelize, Sequelize) => {
   const Book = sequelize.define("book", {
-    Title: {
+    title: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    NumPages: {
+    numPages: {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    PublicationDate: {
+    publicationDate: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-    Link: {
+    link: {
       type: Sequelize.STRING,
       allowNull: false,
     }

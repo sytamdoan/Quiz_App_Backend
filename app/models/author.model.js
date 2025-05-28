@@ -1,14 +1,14 @@
 module.exports = (sequelize, Sequelize) => {
   const Author = sequelize.define("author", {
-    FirstName: {
+    firstName: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    lastName: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    LastName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    MiddleMan: {
+    middleName: {
       type: Sequelize.STRING,
       allowNull: true,
     },
