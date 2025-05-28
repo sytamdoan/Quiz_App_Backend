@@ -1,11 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
   const Author = sequelize.define("author", {
-    Id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false,
-    },
     FirstName: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -17,11 +11,6 @@ module.exports = (sequelize, Sequelize) => {
     MiddleMan: {
       type: Sequelize.STRING,
       allowNull: true,
-    },
-    IsDeleted: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      default: false,
     },
   });
   return Author;
