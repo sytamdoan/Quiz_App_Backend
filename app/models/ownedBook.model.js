@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
       },
       dateBought: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
       ReadingStatusTypesid: {
         type: Sequelize.INTEGER,
