@@ -65,11 +65,7 @@ exports.findOne = (req, res) => {
 // Update a Author by the id in the request
 exports.update = (req, res) => {
 
-  if (req.body.firstName === undefined || req.body.firstName === "") {
-    const error = new Error("First name cant be empty!");
-    error.statusCode = 400;
-    throw error;
-  } else if (req.body.lastName === undefined || req.body.lastName === "") {
+  if (req.body.lastName === undefined || req.body.lastName === "") {
     const error = new Error("Last name cant be empty!");
     error.statusCode = 400;
     throw error;
