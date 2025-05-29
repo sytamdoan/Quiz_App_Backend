@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
   const Author = sequelize.define("author", {
     firstName: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     middleName: {
       type: Sequelize.STRING,
