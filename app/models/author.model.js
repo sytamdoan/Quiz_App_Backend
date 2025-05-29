@@ -4,13 +4,13 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    middleName: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
     lastName: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    middleName: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
   });
   return Author;
