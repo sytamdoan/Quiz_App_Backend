@@ -1,11 +1,11 @@
 [Unit]
-Description=NodeJS Recipe Backend
+Description=NodeJS bookshelf Backend
 After=network.target
  
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/nodeapps/recipe-backend/
+WorkingDirectory=/home/ubuntu/nodeapps/bookshelf-backend/
 ExecStart=/usr/bin/npm run start
 Restart=on-failure
  
