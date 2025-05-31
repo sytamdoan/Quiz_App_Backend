@@ -7,7 +7,16 @@ const app = express();
 
 const db = require("./app/models");
 
-db.sequelize.sync();
+const seedStatusTypes = require('./seed/seedStatus');
+
+// Sync DB
+db.sequelize.sync().then(async () => {
+  console.log("Database synced.");
+
+  // Seed only if needed
+  await seedStatusTypes(db); // 👈 Run seeder with conditional logic
+});
+//db.sequelize.sync();
 
 var corsOptions = {
   origin: "http://localhost:8081",
@@ -34,6 +43,7 @@ require("./app/routes/book.routes")(app);
 require("./app/routes/recipeStep.routes")(app);
 require("./app/routes/recipeIngredient.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/ownedBook.routes")(app);
 require("./app/routes/author.routes")(app);
 
 
