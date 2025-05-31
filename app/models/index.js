@@ -35,9 +35,9 @@ db.Book = require('./book.model.js')(sequelize, Sequelize);
 db.OwnedBook = require('./ownedBook.model.js')(sequelize, Sequelize);
 db.ReadingStatusTypes = require('./readingStatusTypes.model.js')(sequelize, Sequelize);
 
-db.Book.associate?.(db);
-db.ReadingStatusTypes.associate?.(db);
-db.OwnedBook.associate?.(db);
+db.Book.associate(db);
+db.ReadingStatusTypes.associate(db);
+db.OwnedBook.associate(db);
 
 // foreign key for session
 db.user.hasMany(
