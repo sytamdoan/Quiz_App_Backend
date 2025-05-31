@@ -7,7 +7,16 @@ const app = express();
 
 const db = require("./app/models");
 
-db.sequelize.sync();
+const seedStatusTypes = require('./seed/seedStatus');
+
+// Sync DB
+db.sequelize.sync().then(async () => {
+  console.log("Database synced.");
+
+  // Seed only if needed
+  await seedStatusTypes(db); // 👈 Run seeder with conditional logic
+});
+//db.sequelize.sync();
 
 var corsOptions = {
   origin: "http://localhost:8081",
@@ -30,9 +39,13 @@ app.get("/", (req, res) => {
 require("./app/routes/auth.routes.js")(app);
 require("./app/routes/ingredient.routes")(app);
 require("./app/routes/recipe.routes")(app);
+require("./app/routes/book.routes")(app);
 require("./app/routes/recipeStep.routes")(app);
 require("./app/routes/recipeIngredient.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/ownedBook.routes")(app);
+require("./app/routes/author.routes")(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3201;
