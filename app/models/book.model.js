@@ -1,32 +1,26 @@
 module.exports = (sequelize, Sequelize) => {
-  const Book = sequelize.define(
-    'Book', {
-      id: {
-        type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true
-      },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      numPages: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-      },
-      link: {
-        type: Sequelize.STRING(512),
-        allowNull: true
-      }
+  const Book = sequelize.define("book", {
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
-    {
-      tableName: 'Book',
-      timestamps: false
-    });
+    numPages: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    publicationDate: {
+      type: 'TIMESTAMP',
+      allowNull: true,
+    },
+    link: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    }
+  });
 
   Book.associate = models => {
     Book.hasMany(models.OwnedBook, {foreignKey: 'Bookid'});
   };
-
+  
   return Book;
 };
