@@ -99,11 +99,12 @@ exports.update = async (req, res) => {
     }
 
     const bookId = ownedBook.Bookid;
+    const bookData = req.body.book || {};
     await Book.update(
       {
-        title: req.body.book?.title,
-        numPages: req.body.book?.numPages,
-        link: req.body.book?.link,
+        title: bookData.title,
+        numPages: bookData.numPages,
+        link: bookData.link,
       },
       { where: { id: bookId } }
     );
