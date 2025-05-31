@@ -7,10 +7,14 @@ const Op = db.Sequelize.Op;
 exports.create = (req, res) => {
   // Validate request
   if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
-    return res.status(400).json({ message: "Title can't be empty broooo!" });
+    return res.status(400).json({ message: "Title can't be empty!" });
   } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
-    return res.status(400).json({ message: "No letters in number fields broooo!" });
+    return res.status(400).json({ message: "No letters in number fields!" });
   }   
+    
+  if (!/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
+    return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
+  }
     
   Book.create({
     title: req.body.title,
@@ -87,10 +91,14 @@ exports.update = async (req, res) => {
     const id = req.params.id;
     
   if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
-    return res.status(400).json({ message: "Title can't be empty broooo!" });
+    return res.status(400).json({ message: "Title can't be empty!" });
   } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
-    return res.status(400).json({ message: "No letters in number fields broooo!" });
+    return res.status(400).json({ message: "No letters in number fields!" });
   }     
+    
+  if (!/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
+    return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
+  }
 
   try {
     const ownedBook = await OwnedBook.findByPk(id);
