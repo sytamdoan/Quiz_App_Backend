@@ -86,26 +86,6 @@ exports.findOne = (req, res) => {
 exports.update = async (req, res) => {
     const id = req.params.id;
     
-    // const rawTitle = req.body.Book?.title;
-    // const rawNumPages = req.body.Book?.numPages;
-    // const rawPaidAmount = req.body.paidAmount;
-    // const rawStatusId = req.body.ReadingStatusTypesid;
-
-    // // Explicit numeric validation
-    // const paidAmount = Number(rawPaidAmount);
-    // const numPages = Number(rawNumPages);
-    // const statusId = Number(rawStatusId);
-
-    // if (!rawTitle || rawTitle.trim() === "") {
-    //     return res.status(400).json({ message: "Title can't be empty!" });
-    // } else if (
-    //     isNaN(paidAmount) ||
-    //     isNaN(numPages) ||
-    //     isNaN(statusId)
-    // ) {
-    //     return res.status(400).json({ message: "One or more numeric fields are invalid." });
-    // }
-    // Validate request
   if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
     return res.status(400).json({ message: "Title can't be empty broooo!" });
   } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
@@ -121,9 +101,9 @@ exports.update = async (req, res) => {
     const bookId = ownedBook.Bookid;
     await Book.update(
       {
-        title: req.body.Book?.title,
-        numPages: req.body.Book?.numPages,
-        link: req.body.Book?.link,
+        title: req.body.book?.title,
+        numPages: req.body.book?.numPages,
+        link: req.body.book?.link,
       },
       { where: { id: bookId } }
     );
