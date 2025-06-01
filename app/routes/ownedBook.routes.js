@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const OwnedBook = require("../controllers/OwnedBook.controller.js");
+  const OwnedBook = require("../controllers/ownedBook.controller.js");
   var router = require("express").Router();
 
   // Create a new Book
