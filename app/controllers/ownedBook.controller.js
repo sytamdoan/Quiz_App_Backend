@@ -4,24 +4,12 @@ const Book = db.Book;
 const ReadingStatusTypes = db.ReadingStatusTypes;
 const Op = db.Sequelize.Op;
 const { decrypt } = require("../authentication/crypto");
+const getUserIdFromToken = require("../middleware/getUserIdFromToken");
 const Session = db.session;
 
 exports.create = async (req, res) => {
   try {
-    //Get userId from token
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "No token provided" });
-    }
-
-    const token = authHeader.split(" ")[1];
-    const sessionId = await decrypt(token);
-    const session = await Session.findByPk(sessionId);
-    if (!session || !session.userId) {
-      return res.status(401).json({ message: "Invalid session" });
-    }
-
-    const userId = session.userId;
+    const userId = await getUserIdFromToken(req);
 
     // Validation
     if (!req.body.title) {
@@ -63,21 +51,9 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   try {
-    // Get userId from token
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "No token provided" });
-    }
-
-    const token = authHeader.split(" ")[1];
-    const sessionId = await decrypt(token);
-    const session = await Session.findByPk(sessionId);
-    if (!session || !session.userId) {
-      return res.status(401).json({ message: "Invalid session" });
-    }
-
-    const userId = session.userId;
+    const userId = await getUserIdFromToken(req);
     //console.log("Fetched books for userId:", userId);
+
     // Fetch only the OwnedBooks for the authenticated user
     const data = await OwnedBook.findAll({
       where: { userId: userId},
@@ -133,7 +109,7 @@ exports.update = async (req, res) => {
       return res.status(404).json({ message: "OwnedBook not found" });
     }
 
-    const bookId = ownedBook.Bookid;
+    const bookId = ownedBook.bookId;
     const bookData = req.body.book || {};
     await Book.update(
       {
