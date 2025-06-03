@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
       },
       paidAmount: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
       },
       dateBought: {
         type: Sequelize.DATEONLY,
