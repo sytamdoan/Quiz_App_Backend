@@ -7,7 +7,7 @@ const app = express();
 
 const db = require("./app/models");
 
-const seedStatusTypes = require('./seed/seedStatus');
+const seedStatusTypes = require('./app/seed/seedStatus');
 
 // Sync DB
 db.sequelize.sync().then(async () => {
