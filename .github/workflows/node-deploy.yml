@@ -54,6 +54,7 @@ jobs:
           command: |
             echo "Changing directory at $(date -u)"
             cd nodeapps/bookshelf-backend
+            ls
             echo "npm install at $(date -u)"
             npm install --verbose
             echo "sudo systemctl at $(date -u)"
