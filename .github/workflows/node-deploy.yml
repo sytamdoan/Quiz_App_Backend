@@ -38,7 +38,7 @@ jobs:
         uses: easingthemes/ssh-deploy@v2.1.1
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          ARGS: "-rltgoDzvO --delete"
+          ARGS: "-rltgoDzvO --delete --exclude node_modules"
           SOURCE: "deploy/"
           REMOTE_HOST: "ec2-13-58-174-14.us-east-2.compute.amazonaws.com"
           REMOTE_USER: ubuntu
@@ -52,9 +52,15 @@ jobs:
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           debug: false
           command: |
+            echo "Changing directory at $(date -u)"
             cd nodeapps/bookshelf-backend
+            echo "npm install at $(date -u)"
             npm install
+            echo "sudo systemctl at $(date -u)"
             sudo systemctl stop bookshelf-backend
+            echo "copy at $(date -u)"
             sudo cp bookshelf-backend.service /lib/systemd/system/bookshelf-backend.service
+            echo "systemctl reload at $(date -u)"
             sudo systemctl daemon-reload
+            echo "systemctl start at $(date -u)"
             sudo systemctl start bookshelf-backend
