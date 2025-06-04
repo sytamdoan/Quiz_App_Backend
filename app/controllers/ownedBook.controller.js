@@ -7,6 +7,7 @@ const { decrypt } = require("../authentication/crypto");
 const getUserIdFromToken = require("../utils/getUserIdFromToken");
 const Session = db.session;
 
+
 exports.create = async (req, res) => {
   try {
     const userId = await getUserIdFromToken(req);
@@ -28,7 +29,6 @@ exports.create = async (req, res) => {
       link: req.body.link,
     });
 
-    //Create the OwnedBook
     const newOwnedBook = {
       userId: userId,
       bookId: newBook.id,
@@ -98,10 +98,14 @@ exports.update = async (req, res) => {
     const id = req.params.id;
     
   if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
-    return res.status(400).json({ message: "Title can't be empty broooo!" });
+    return res.status(400).json({ message: "Title can't be empty!" });
   } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
-    return res.status(400).json({ message: "No letters in number fields broooo!" });
+    return res.status(400).json({ message: "No letters in number fields!" });
   }     
+    
+  if (!/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
+    return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
+  }
 
   try {
     const ownedBook = await OwnedBook.findByPk(id);
