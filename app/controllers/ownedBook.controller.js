@@ -4,7 +4,7 @@ const Book = db.Book;
 const ReadingStatusTypes = db.ReadingStatusTypes;
 const Op = db.Sequelize.Op;
 const { decrypt } = require("../authentication/crypto");
-const getUserIdFromToken = require("../middleware/getUserIdFromToken");
+const getUserIdFromToken = require("../utils/getUserIdFromToken");
 const Session = db.session;
 
 exports.create = async (req, res) => {

@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const verifyToken = require("../middleware/verifyToken");
+  const verifyToken = require("../utils/verifyToken.js");
   const OwnedBook = require("../controllers/ownedBook.controller.js");
   var router = require("express").Router();
 
