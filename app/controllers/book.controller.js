@@ -13,16 +13,15 @@ exports.create = (req, res) => {
     error.statusCode = 400;
     throw error;
   }
-
-  // Create a Book
-  const book = {
+  // Save Book in the database
+  book.create(
+    {
     title: req.body.title,
     numPages: req.body.numPages,
     publicationDate: req.body.publicationDate,
     link: req.body.link,
-  };
-  // Save Book in the database
-  book.create(book)
+    }
+  )
     .then((data) => {
       res.send(data);
     })
@@ -81,10 +80,18 @@ exports.findOne = (req, res) => {
 // Update a Book by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  book.update(req.body, {
-    where: { id: id },
-  })
+  book.update(
+    {
+      title: req.body.title,
+      numPages: req.body.numPages,
+      publicationDate : req.body.publicationDate,
+      link: req.body.link,
+    },
+    {
+      where: { id: id },
+    })
     .then((number) => {
+      console.log(number)
       if (number == 1) {
         res.send({
           message: "Book was updated successfully.",
