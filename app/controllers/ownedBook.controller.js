@@ -12,10 +12,16 @@ exports.create = (req, res) => {
     return res.status(400).json({ message: "No letters in number fields!" });
   }   
     
-  if (!/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
+  if (req.body.paidAmount !== "" && !/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
     return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
   }
-    
+
+  const finalPaidAmount = req.body.paidAmount === "" ? null : parseFloat(req.body.paidAmount);
+  const rawDate = req.body.dateBought;
+  const finalDate = (!rawDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate)))
+    ? null
+    : rawDate;
+
   Book.create({
     title: req.body.title,
     numPages: req.body.numPages,
@@ -26,8 +32,8 @@ exports.create = (req, res) => {
       Userid: 1, // Replace with session value later
       Bookid: newBook.id,
       ReadingStatusTypesid: req.body.ReadingStatusTypesid || 1,
-      paidAmount: req.body.paidAmount,
-      dateBought: req.body.dateBought,
+      paidAmount: finalPaidAmount,
+      dateBought: finalDate,
       userNotes: req.body.userNotes,
     };
       
@@ -88,7 +94,7 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
     
   if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
     return res.status(400).json({ message: "Title can't be empty!" });
@@ -96,9 +102,22 @@ exports.update = async (req, res) => {
     return res.status(400).json({ message: "No letters in number fields!" });
   }     
     
-  if (!/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
+  if (req.body.paidAmount !== "" && req.body.paidAmount !== null && !isNaN(req.body.paidAmount) && !/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
     return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
   }
+
+  let finalPaidAmount = null;
+
+  if (req.body.paidAmount !== "" && req.body.paidAmount !== null) {
+    const parsed = parseFloat(req.body.paidAmount);
+    if (!isNaN(parsed)) {
+      finalPaidAmount = parsed;
+    }
+  }
+  const rawDate = req.body.dateBought;
+  const finalDate = (!rawDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate)))
+    ? null
+    : rawDate;
 
   try {
     const ownedBook = await OwnedBook.findByPk(id);
@@ -119,8 +138,8 @@ exports.update = async (req, res) => {
 
     await OwnedBook.update(
       {
-        paidAmount: req.body.paidAmount,
-        dateBought: req.body.dateBought,
+        paidAmount: finalPaidAmount,
+        dateBought: finalDate,
         userNotes: req.body.userNotes,
         ReadingStatusTypesid: req.body.ReadingStatusTypesid,
       },
