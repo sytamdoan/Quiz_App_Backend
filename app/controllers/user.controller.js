@@ -160,9 +160,15 @@ exports.findByEmail = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  User.update(req.body, {
+  const usr = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    role: req.body.role
+  }
+  User.update(usr, {
     where: { id: id },
   })
+    
     .then((number) => {
       if (number == 1) {
         res.send({
