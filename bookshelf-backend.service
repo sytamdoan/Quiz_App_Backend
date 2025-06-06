@@ -1,14 +1,13 @@
 [Unit]
 Description=NodeJS bookshelf Backend
 After=network.target
- 
+
 [Service]
 Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/nodeapps/bookshelf-backend/
 ExecStart=/usr/bin/npm run start
 Restart=on-failure
- 
+
 [Install]
 WantedBy=multi-user.target
-

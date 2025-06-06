@@ -3,6 +3,31 @@ const OwnedBook = db.OwnedBook;
 const Book = db.Book;
 const ReadingStatusTypes = db.ReadingStatusTypes;
 const Op = db.Sequelize.Op;
+const { decrypt } = require("../authentication/crypto");
+const getUserIdFromToken = require("../utils/getUserIdFromToken");
+const Session = db.session;
+
+
+exports.create = async (req, res) => {
+  try {
+    const userId = await getUserIdFromToken(req);
+
+    // Validation
+    if (!req.body.title) {
+      return res.status(400).json({ message: "Title can't be empty broooo!" });
+    }
+    if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
+      return res.status(400).json({ message: "No letters in number fields broooo!" });
+    }
+
+    //console.log("userId inside of the controller:", userId);
+
+    // Create the Book
+    const newBook = await Book.create({
+      title: req.body.title,
+      numPages: req.body.numPages,
+      link: req.body.link,
+    });
 
 exports.create = (req, res) => {
   // Validate request
@@ -29,69 +54,69 @@ exports.create = (req, res) => {
   })
   .then((newBook) => {
     const newOwnedBook = {
-      Userid: 1, // Replace with session value later
-      Bookid: newBook.id,
-      ReadingStatusTypesid: req.body.ReadingStatusTypesid || 1,
-      paidAmount: finalPaidAmount,
-      dateBought: finalDate,
+      userId: userId,
+      bookId: newBook.id,
+      readingStatusTypesId: req.body.readingStatusTypesId || 1,
+      paidAmount: req.body.paidAmount,
+      dateBought: req.body.dateBought,
       userNotes: req.body.userNotes,
     };
-      
-    return OwnedBook.create(newOwnedBook);
-  })
-  .then((createdOwnedBook) => {
+
+    const createdOwnedBook = await OwnedBook.create(newOwnedBook);
     res.status(201).json(createdOwnedBook);
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error("Error during create:", err);
     res.status(500).json({
       message: err.message || "Failed to create OwnedBook"
     });
-  });
+  }
 };
 
-// Retrieve all OwnedBooks from the database.
-exports.findAll = (req, res) => {
-  const OwnedBookId = req.query.OwnedBookId;
-  var condition = OwnedBookId ? { id: { [Op.like]: `%${OwnedBookId}%` } } : null;
 
-    OwnedBook.findAll({
-        where: condition,
-        include: [
-            {
-                model: db.Book,
-                required: true
-             },
-            {
-                model: db.ReadingStatusTypes,
-            }
-        ]
-    })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Owned Books.",
-      });
+exports.findAll = async (req, res) => {
+  try {
+    const userId = await getUserIdFromToken(req);
+    //console.log("Fetched books for userId:", userId);
+
+    // Fetch only the OwnedBooks for the authenticated user
+    const data = await OwnedBook.findAll({
+      where: { userId: userId},
+      include: [
+        {
+          model: db.Book,
+          //required: true,
+        },
+        {
+          model: db.ReadingStatusTypes,
+        },
+      ],
     });
-};
 
-// Find a single OwnedBook with an id
-exports.findOne = (req, res) => {
-  const id = req.params.id;
+//    console.log(`Returned ${data.length} books for user ${userId}`);
 
-  OwnedBook.findByPk(id)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Error retrieving an Owned Book with id=" + id,
-      });
+    res.send(data);
+  } catch (err) {
+    console.error("Error in findAll:", err);
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving Owned Books.",
     });
+  }
 };
+
+// // Find a single OwnedBook with an id
+// exports.findOne = (req, res) => {
+//   const id = req.params.id;
+
+//   OwnedBook.findByPk(id)
+//     .then((data) => {
+//       res.send(data);
+//     })
+//     .catch((err) => {
+//       res.status(500).send({
+//         message: err.message || "Error retrieving an Owned Book with id=" + id,
+//       });
+//     });
+// };
 
 exports.update = async (req, res) => {
   const id = req.params.id;
@@ -125,7 +150,7 @@ exports.update = async (req, res) => {
       return res.status(404).json({ message: "OwnedBook not found" });
     }
 
-    const bookId = ownedBook.Bookid;
+    const bookId = ownedBook.bookId;
     const bookData = req.body.book || {};
     await Book.update(
       {
@@ -141,7 +166,7 @@ exports.update = async (req, res) => {
         paidAmount: finalPaidAmount,
         dateBought: finalDate,
         userNotes: req.body.userNotes,
-        ReadingStatusTypesid: req.body.ReadingStatusTypesid,
+        readingStatusTypesId: req.body.readingStatusTypesId,
       },
       { where: { id } }
     );

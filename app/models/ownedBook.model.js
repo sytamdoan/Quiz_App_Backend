@@ -7,11 +7,11 @@ module.exports = (sequelize, Sequelize) => {
           autoIncrement: true,
           allowNull: false
       },
-      Userid: {
+      userId: {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
-      Bookid: {
+      bookId: {
         type: Sequelize.INTEGER,
       },
       paidAmount: {
@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.DATEONLY,
         allowNull: true,
       },
-      ReadingStatusTypesid: {
+      readingStatusTypesId: {
         type: Sequelize.INTEGER,
       },
       userNotes: {
@@ -36,9 +36,10 @@ module.exports = (sequelize, Sequelize) => {
     });
 
   OwnedBook.associate = models => {
-    OwnedBook.belongsTo(models.Book, {foreignKey: 'Bookid'});
+    OwnedBook.belongsTo(models.user, {foreignKey: 'userId'});
+    OwnedBook.belongsTo(models.Book, {foreignKey: 'bookId'});
     OwnedBook.belongsTo(
-        models.ReadingStatusTypes, {foreignKey: 'ReadingStatusTypesid'});
+        models.ReadingStatusTypes, {foreignKey: 'readingStatusTypesId'});
   };
 
   return OwnedBook;
