@@ -48,7 +48,7 @@ jobs:
         env:
           NAME: "Root"
         with:
-          hosts: "ubuntu@eec2-18-218-107-33.us-east-2.compute.amazonaws.com"
+          hosts: "ubuntu@ec2-18-218-107-33.us-east-2.compute.amazonaws.com"
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           debug: false
           command: |
