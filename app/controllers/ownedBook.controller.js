@@ -7,29 +7,11 @@ const { decrypt } = require("../authentication/crypto");
 const getUserIdFromToken = require("../utils/getUserIdFromToken");
 const Session = db.session;
 
-
 exports.create = async (req, res) => {
-  try {
-    const userId = await getUserIdFromToken(req);
+try{ 
+ 
+  const userId = await getUserIdFromToken(req);
 
-    // Validation
-    if (!req.body.title) {
-      return res.status(400).json({ message: "Title can't be empty broooo!" });
-    }
-    if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
-      return res.status(400).json({ message: "No letters in number fields broooo!" });
-    }
-
-    //console.log("userId inside of the controller:", userId);
-
-    // Create the Book
-    const newBook = await Book.create({
-      title: req.body.title,
-      numPages: req.body.numPages,
-      link: req.body.link,
-    });
-
-exports.create = (req, res) => {
   // Validate request
   if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
     return res.status(400).json({ message: "Title can't be empty!" });
@@ -47,18 +29,18 @@ exports.create = (req, res) => {
     ? null
     : rawDate;
 
-  Book.create({
-    title: req.body.title,
-    numPages: req.body.numPages,
-    link: req.body.link
-  })
-  .then((newBook) => {
+    const newBook = await Book.create({
+      title: req.body.title,
+      numPages: req.body.numPages,
+      link: req.body.link,
+    });
+
     const newOwnedBook = {
-      userId: userId,
+      userId,
       bookId: newBook.id,
       readingStatusTypesId: req.body.readingStatusTypesId || 1,
-      paidAmount: req.body.paidAmount,
-      dateBought: req.body.dateBought,
+      paidAmount: finalPaidAmount,
+      dateBought: finalDate,
       userNotes: req.body.userNotes,
     };
 
