@@ -19,8 +19,8 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   Book.associate = models => {
-    Book.hasMany(models.OwnedBook, {foreignKey: 'Bookid'});
+    Book.hasMany(models.OwnedBook, {foreignKey: 'bookId'});
   };
-  
+
   return Book;
 };
