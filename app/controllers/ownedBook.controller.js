@@ -41,11 +41,11 @@ exports.create = async (req, res) => {
     });
 
     const newOwnedBook = {
-      userId: userId,
-      bookId: newBook.id,
-      readingStatusTypesId: req.body.readingStatusTypesId || 1,
-      paidAmount: finalPaidAmount,
-      dateBought: finalDateBought,
+      Userid: 1, // Replace with session value later
+      Bookid: newBook.id,
+      ReadingStatusTypesid: req.body.ReadingStatusTypesid || 1,
+      paidAmount: req.body.paidAmount,
+      dateBought: req.body.dateBought,
       userNotes: req.body.userNotes,
     };
 
