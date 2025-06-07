@@ -36,6 +36,7 @@ exports.create = async (req, res) => {
 
     const finalPublicationDate = rawPublicationDate;
     
+    //Create the book
     const newBook = await Book.create({
       title: req.body.title,
       numPages: req.body.numPages,
@@ -43,6 +44,7 @@ exports.create = async (req, res) => {
       link: req.body.link
     });
 
+    //create the owned book
     const newOwnedBook = {
       userId: userId,
       bookId: newBook.id,
