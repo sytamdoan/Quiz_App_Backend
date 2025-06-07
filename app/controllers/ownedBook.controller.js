@@ -41,8 +41,8 @@ exports.create = async (req, res) => {
     });
 
     const newOwnedBook = {
-      Userid: userId,
-      Bookid: newBook.id,
+      userId: userId,
+      bookId: newBook.id,
       readingStatusTypesId: req.body.readingStatusTypesId || 1,
       paidAmount: finalPaidAmount,
       dateBought: finalDateBought,
