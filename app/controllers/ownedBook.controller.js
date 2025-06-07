@@ -22,16 +22,19 @@ exports.create = async (req, res) => {
       return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
     }
 
-    // Create the Book
     const finalPaidAmount = req.body.paidAmount === "" ? null : parseFloat(req.body.paidAmount);
+
     const rawDateBought = req.body.dateBought;
     const finalDateBought = (!rawDateBought || rawDateBought === "Invalid date" || isNaN(Date.parse(rawDateBought)))
       ? null
       : rawDateBought;
+    
     const rawPublicationDate = req.body.publicationDate;
-    const finalPublicationDate = (!rawPublicationDate || rawPublicationDate === "Invalid date" || isNaN(Date.parse(rawPublicationDate)))
-      ? null
-      : rawPublicationDate;
+    if (!rawPublicationDate || rawPublicationDate === "Invalid date" || isNaN(Date.parse(rawPublicationDate))) {
+      return res.status(400).json({ message: "Publication Date is required and must be valid." });
+    }
+
+    const finalPublicationDate = rawPublicationDate;
     
     const newBook = await Book.create({
       title: req.body.title,
