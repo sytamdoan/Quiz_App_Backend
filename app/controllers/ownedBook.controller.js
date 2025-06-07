@@ -24,15 +24,19 @@ exports.create = async (req, res) => {
 
     // Create the Book
     const finalPaidAmount = req.body.paidAmount === "" ? null : parseFloat(req.body.paidAmount);
-    const rawDate = req.body.dateBought;
-    const finalDate = (!rawDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate)))
+    const rawDateBought = req.body.dateBought;
+    const finalDateBought = (!rawDateBought || rawDateBought === "Invalid date" || isNaN(Date.parse(rawDateBought)))
       ? null
-      : rawDate;
+      : rawDateBought;
+    const rawPublicationDate = req.body.publicationDate;
+    const finalPublicationDate = (!rawPublicationDate || rawPublicationDate === "Invalid date" || isNaN(Date.parse(rawPublicationDate)))
+      ? null
+      : rawPublicationDate;
     
     const newBook = await Book.create({
       title: req.body.title,
       numPages: req.body.numPages,
-      publicationDate: req.body.publicationDate,
+      publicationDate: finalPublicationDate,
       link: req.body.link
     });
 
@@ -40,13 +44,14 @@ exports.create = async (req, res) => {
       userId: userId,
       bookId: newBook.id,
       readingStatusTypesId: req.body.readingStatusTypesId || 1,
-      paidAmount: req.body.paidAmount,
-      dateBought: req.body.dateBought,
+      paidAmount: finalPaidAmount,
+      dateBought: finalDateBought,
       userNotes: req.body.userNotes,
     };
 
     const createdOwnedBook = await OwnedBook.create(newOwnedBook);
     res.status(201).json(createdOwnedBook);
+    
   } catch (err) {
     console.error("Error during create:", err);
     res.status(500).json({
