@@ -11,7 +11,7 @@ exports.create = async (req, res) => {
   try {
     const userId = await getUserIdFromToken(req);
 
-      // Validate request
+    // Validate request
     if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
       return res.status(400).json({ message: "Title can't be empty!" });
     } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
@@ -64,7 +64,6 @@ exports.create = async (req, res) => {
 exports.findAll = async (req, res) => {
   try {
     const userId = await getUserIdFromToken(req);
-    //console.log("Fetched books for userId:", userId);
 
     // Fetch only the OwnedBooks for the authenticated user
     const data = await OwnedBook.findAll({
@@ -79,8 +78,6 @@ exports.findAll = async (req, res) => {
         },
       ],
     });
-
-//    console.log(`Returned ${data.length} books for user ${userId}`);
 
     res.send(data);
   } catch (err) {
