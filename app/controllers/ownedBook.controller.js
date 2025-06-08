@@ -12,40 +12,52 @@ try{
  
   const userId = await getUserIdFromToken(req);
 
-  // Validate request
-  if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
-    return res.status(400).json({ message: "Title can't be empty!" });
-  } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
-    return res.status(400).json({ message: "No letters in number fields!" });
-  }   
+    // Validate request
+    if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
+      return res.status(400).json({ message: "Title can't be empty!" });
+    } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
+      return res.status(400).json({ message: "No letters in number fields!" });
+    }   
+      
+    if (req.body.paidAmount !== "" && !/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
+      return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
+    }
+
+    const finalPaidAmount = req.body.paidAmount === "" ? null : parseFloat(req.body.paidAmount);
+
+    const rawDateBought = req.body.dateBought;
+    const finalDateBought = (!rawDateBought || rawDateBought === "Invalid date" || isNaN(Date.parse(rawDateBought)))
+      ? null
+      : rawDateBought;
     
-  if (req.body.paidAmount !== "" && !/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
-    return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
-  }
+    const rawPublicationDate = req.body.publicationDate;
+    if (!rawPublicationDate || rawPublicationDate === "Invalid date" || isNaN(Date.parse(rawPublicationDate))) {
+      return res.status(400).json({ message: "Publication Date is required and must be valid." });
+    }
 
-  const finalPaidAmount = req.body.paidAmount === "" ? null : parseFloat(req.body.paidAmount);
-  const rawDate = req.body.dateBought;
-  const finalDate = (!rawDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate)))
-    ? null
-    : rawDate;
-
+    const finalPublicationDate = rawPublicationDate;
+    
+    //Create the book
     const newBook = await Book.create({
       title: req.body.title,
       numPages: req.body.numPages,
-      link: req.body.link,
+      publicationDate: finalPublicationDate,
+      link: req.body.link
     });
 
+    //create the owned book
     const newOwnedBook = {
       userId,
       bookId: newBook.id,
       readingStatusTypesId: req.body.readingStatusTypesId || 1,
       paidAmount: finalPaidAmount,
-      dateBought: finalDate,
+      dateBought: finalDateBought,
       userNotes: req.body.userNotes,
     };
 
     const createdOwnedBook = await OwnedBook.create(newOwnedBook);
     res.status(201).json(createdOwnedBook);
+    
   } catch (err) {
     console.error("Error during create:", err);
     res.status(500).json({
@@ -58,7 +70,6 @@ try{
 exports.findAll = async (req, res) => {
   try {
     const userId = await getUserIdFromToken(req);
-    //console.log("Fetched books for userId:", userId);
 
     // Fetch only the OwnedBooks for the authenticated user
     const data = await OwnedBook.findAll({
@@ -73,8 +84,6 @@ exports.findAll = async (req, res) => {
         },
       ],
     });
-
-//    console.log(`Returned ${data.length} books for user ${userId}`);
 
     res.send(data);
   } catch (err) {
@@ -138,6 +147,7 @@ exports.update = async (req, res) => {
       {
         title: bookData.title,
         numPages: bookData.numPages,
+        publicationDate: bookData.publicationDate,
         link: bookData.link,
       },
       { where: { id: bookId } }
