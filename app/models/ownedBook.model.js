@@ -16,15 +16,18 @@ module.exports = (sequelize, Sequelize) => {
       },
       paidAmount: {
         type: Sequelize.DOUBLE,
+        allowNull: true,
       },
       dateBought: {
         type: Sequelize.DATEONLY,
+        allowNull: true,
       },
       readingStatusTypesId: {
         type: Sequelize.INTEGER,
       },
       userNotes: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       }
     },
     {

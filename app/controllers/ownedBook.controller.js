@@ -8,8 +8,9 @@ const getUserIdFromToken = require("../utils/getUserIdFromToken");
 const Session = db.session;
 
 exports.create = async (req, res) => {
-  try {
-    const userId = await getUserIdFromToken(req);
+try{ 
+ 
+  const userId = await getUserIdFromToken(req);
 
     // Validate request
     if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
@@ -46,7 +47,7 @@ exports.create = async (req, res) => {
 
     //create the owned book
     const newOwnedBook = {
-      userId: userId,
+      userId,
       bookId: newBook.id,
       readingStatusTypesId: req.body.readingStatusTypesId || 1,
       paidAmount: finalPaidAmount,
