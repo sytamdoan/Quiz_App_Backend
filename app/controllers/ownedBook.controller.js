@@ -41,7 +41,7 @@ try{
 
     const finalPublicationDate = rawPublicationDate;
   
-    if (req.body.score !== "" && !/^(10|[1-9])$/.test(req.body.score)) {
+    if (req.body.score !== "" && req.body.score !== null && !/^(10|[1-9])$/.test(req.body.score)) {
       return res.status(400).json({message: "Rating can only be a whole number from 1 to 10 or left blank"});
     }
     //end of validation
@@ -146,7 +146,7 @@ exports.update = async (req, res) => {
     ? null
     : rawDate;
   
-  if (req.body.score !== "" && !/^(10|[1-9])$/.test(req.body.score)) {
+  if (req.body.score !== "" && req.body.score !== null && !/^(10|[1-9])$/.test(req.body.score)) {
     return res.status(400).json({message: "Rating can only be a whole number from 1 to 10 or left blank"});
   }
   //end of validation
