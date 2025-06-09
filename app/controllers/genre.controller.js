@@ -87,7 +87,9 @@ exports.update = (req, res) => {
   Genre.update(genre, {where: {id}})
     .then((num) => {
       if (num == 1) {
-        res.send("Genre was successfully updated.")
+        res.send({
+          message: "Genre was updated successfully"
+        })
       } else if (num <= 0) {
         res.send({
           message: `Cannot update Genre with id=${id}. Maybe Genre was not found or req.body is empty!`
@@ -115,7 +117,9 @@ exports.delete = (req, res) => {
   })
     .then((num) => {
       if (num == 1) {
-        res.send("Genre was successfully deleted.")
+        res.send({
+          message: "Genre was successfully deleted."
+        })
       } else if (num <= 0) {
         res.send({
           message: `Cannot delete Genre with id=${id}. Maybe Genre was not found or req.body is empty!`
