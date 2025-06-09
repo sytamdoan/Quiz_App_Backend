@@ -23,3 +23,23 @@ exports.findAll = (req, res) => {
       });
     });
 };
+
+// Find one Genre
+exports.findOne = (req, res) => {
+
+};
+
+// Create a Genre
+exports.create = (req, res) => {
+
+};
+
+// Update a Genre
+exports.update = (req, res) => {
+
+};
+
+// Delete a Genre
+exports.delete = (req, res) => {
+
+};
