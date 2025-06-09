@@ -46,7 +46,29 @@ exports.findOne = (req, res) => {
 
 // Create a Genre
 exports.create = (req, res) => {
+  // Validate request
+  if (req.body.descriptor === undefined || req.body.descriptor === "" || req.body.descriptor === null) {
+    const error = new Error("Name can't be empty!");
+    error.statusCode = 400;
+    throw error;
+  }
 
+  // Create a Genre
+  const genre = {
+    descriptor: req.body.descriptor,
+  };
+
+  // Save Genre in the database
+  Genre.create(genre)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the genre.",
+      });
+    });
 };
 
 // Update a Genre
