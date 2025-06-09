@@ -1,11 +1,10 @@
 const db = require("../models");
-const genre = db.genre;
-
+const Genre = db.genre;
 const Op = db.Sequelize.Op;
 
 // Find all Created Genres
 exports.findAll = (req, res) => {
-  genre.findAll({
+  Genre.findAll({
     where:null,
   })
     .then((data) => {
@@ -26,7 +25,23 @@ exports.findAll = (req, res) => {
 
 // Find one Genre
 exports.findOne = (req, res) => {
+  const id = req.params.id;
 
+  Genre.findByPk(id)
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find Genre.`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error retrieving Genre.",
+      });
+    });
 };
 
 // Create a Genre
