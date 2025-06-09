@@ -11,7 +11,7 @@ exports.getRecommendations = async (req, res) => {
     }
     const bookList = books.join(", ");
     const prompt = `Based on the following list of books: ${bookList}, recommend some similar books the I might enjoy. Give your response in JSON format. I only need the book's name, publishers and author. Include literally nothing else, just the JSON request itself.
-    Don't give me the genre, just books, authors, and publishers. Just a list of books and nothing else`;
+    Don't give me the genre, just books, authors, and publishers. Just a list of books and nothing else. Do not recommend me an entire series, if you do just pick the first book.`;
     const response = await cohere.chat({
       "model": "command-a-03-2025",
       "role": "user",
