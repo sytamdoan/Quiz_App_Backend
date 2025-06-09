@@ -1,6 +1,7 @@
 const db = require("../models");
 const OwnedBook = db.OwnedBook;
 const Book = db.Book;
+const BookRating = db.BookRating;
 const ReadingStatusTypes = db.ReadingStatusTypes;
 const Op = db.Sequelize.Op;
 const { decrypt } = require("../authentication/crypto");
@@ -10,16 +11,19 @@ const Session = db.session;
 exports.create = async (req, res) => {
 try{ 
  
-  const userId = await getUserIdFromToken(req);
+    const userId = await getUserIdFromToken(req);
 
     // Validate request
     if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
       return res.status(400).json({ message: "Title can't be empty!" });
-    } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
-      return res.status(400).json({ message: "No letters in number fields!" });
+    } else if (isNaN(req.body.numPages)) {
+      return res.status(400).json({ message: "No letters in number fields! 1.1" });
+    } else if (req.body.paidAmount !== "" && req.body.paidAmount !== null && isNaN(parseFloat(req.body.paidAmount))) {
+      return res.status(400).json({ message: "No letters in number fields! 1.2" });
     }   
       
-    if (req.body.paidAmount !== "" && !/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
+    const paid = req.body.paidAmount.toString();
+    if (req.body.paidAmount !== "" && req.body.paidAmount !== null && !/^\d+(\.\d{1,2})?$/.test(paid )) {
       return res.status(400).json({ message: "Purchase Price can have at most two decimal places!" });
     }
 
@@ -36,7 +40,13 @@ try{
     }
 
     const finalPublicationDate = rawPublicationDate;
-    
+  
+    if (req.body.score !== "" && !/^(10|[1-9])$/.test(req.body.score)) {
+      return res.status(400).json({message: "Rating can only be a whole number from 1 to 10 or left blank"});
+    }
+    //end of validation
+  
+  
     //Create the book
     const newBook = await Book.create({
       title: req.body.title,
@@ -54,9 +64,22 @@ try{
       dateBought: finalDateBought,
       userNotes: req.body.userNotes,
     };
-
+  
     const createdOwnedBook = await OwnedBook.create(newOwnedBook);
-    res.status(201).json(createdOwnedBook);
+  
+    //create the book rating entry
+    const newOwnedBookRating = await BookRating.create({
+      userId,
+      ownedBookId: createdOwnedBook.id,
+      score: req.body.score,
+      description: req.body.description,
+      dateAdded: new Date().toISOString().split('T')[0]
+    });
+  
+    res.status(201).json({
+      ownedBook: createdOwnedBook,
+      bookRating: newOwnedBookRating
+    });
     
   } catch (err) {
     console.error("Error during create:", err);
@@ -77,12 +100,14 @@ exports.findAll = async (req, res) => {
       include: [
         {
           model: db.Book,
-          //required: true,
         },
         {
           model: db.ReadingStatusTypes,
         },
-      ],
+        {
+          model: db.BookRating,
+        }
+      ]
     });
 
     res.send(data);
@@ -94,28 +119,14 @@ exports.findAll = async (req, res) => {
   }
 };
 
-// // Find a single OwnedBook with an id
-// exports.findOne = (req, res) => {
-//   const id = req.params.id;
-
-//   OwnedBook.findByPk(id)
-//     .then((data) => {
-//       res.send(data);
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: err.message || "Error retrieving an Owned Book with id=" + id,
-//       });
-//     });
-// };
-
 exports.update = async (req, res) => {
   const id = req.params.id;
-    
+
+  //Validate data entry
   if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
     return res.status(400).json({ message: "Title can't be empty!" });
   } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
-    return res.status(400).json({ message: "No letters in number fields!" });
+    return res.status(400).json({ message: "No letters in number fields! 2" });
   }     
     
   if (req.body.paidAmount !== "" && req.body.paidAmount !== null && !isNaN(req.body.paidAmount) && !/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
@@ -134,6 +145,11 @@ exports.update = async (req, res) => {
   const finalDate = (!rawDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate)))
     ? null
     : rawDate;
+  
+  if (req.body.score !== "" && !/^(10|[1-9])$/.test(req.body.score)) {
+    return res.status(400).json({message: "Rating can only be a whole number from 1 to 10 or left blank"});
+  }
+  //end of validation
 
   try {
     const ownedBook = await OwnedBook.findByPk(id);
@@ -153,6 +169,15 @@ exports.update = async (req, res) => {
       { where: { id: bookId } }
     );
 
+    //update the book rating entry
+    await BookRating.update(
+      {
+        score: req.body.score,
+        description: req.body.description,
+      },
+      { where: { ownedBookId: id } }
+    );
+
     await OwnedBook.update(
       {
         paidAmount: finalPaidAmount,
@@ -170,9 +195,11 @@ exports.update = async (req, res) => {
     }
 };
 
-// Delete a OwnedBook with the specified id in the request
-exports.delete = (req, res) => {
+// Delete an OwnedBook with the specified id in the request
+exports.delete = async (req, res) => {
   const id = req.params.id;
+
+  await BookRating.destroy({ where: { ownedBookId: id } });
 
   OwnedBook.destroy({
     where: { id: id },

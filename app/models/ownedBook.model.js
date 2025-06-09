@@ -39,7 +39,8 @@ module.exports = (sequelize, Sequelize) => {
     OwnedBook.belongsTo(models.user, {foreignKey: 'userId'});
     OwnedBook.belongsTo(models.Book, {foreignKey: 'bookId'});
     OwnedBook.belongsTo(
-        models.ReadingStatusTypes, {foreignKey: 'readingStatusTypesId'});
+      models.ReadingStatusTypes, { foreignKey: 'readingStatusTypesId' });
+    OwnedBook.hasOne(models.BookRating, { foreignKey: 'ownedBookId'})
   };
 
   return OwnedBook;
