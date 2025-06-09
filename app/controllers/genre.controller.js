@@ -84,7 +84,7 @@ exports.update = (req, res) => {
   const genre = {
     descriptor: req.body.descriptor,
   }
-  Genre.update(genre, {where: id})
+  Genre.update(genre, {where: {id}})
     .then((num) => {
       if (num == 1) {
         res.send("Genre was successfully updated.")
