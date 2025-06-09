@@ -40,6 +40,8 @@ require("./app/routes/auth.routes.js")(app);
 require("./app/routes/ingredient.routes")(app);
 require("./app/routes/recipe.routes")(app);
 require("./app/routes/book.routes")(app);
+require("./app/routes/genre.routes")(app);
+require("./app/routes/publisher.routes")(app);
 require("./app/routes/recipeStep.routes")(app);
 require("./app/routes/recipeIngredient.routes")(app);
 require("./app/routes/user.routes")(app);
