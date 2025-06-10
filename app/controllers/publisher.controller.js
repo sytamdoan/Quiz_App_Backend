@@ -55,11 +55,11 @@ exports.create = (req, res) => {
     throw error;
   }
 
-  // Create an author
+  // Create a Publisher
   const publisher = {
     name: req.body.name,
   };
-  // Save Author in the database
+  // Save Publisher in the database
   Publisher.create(publisher)
     .then((data) => {
       res.send(data);
