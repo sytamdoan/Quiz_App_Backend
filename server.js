@@ -44,6 +44,7 @@ require("./app/routes/recipeStep.routes")(app);
 require("./app/routes/recipeIngredient.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/ownedBook.routes")(app);
+require("./app/routes/wishlistBook.routes")(app);
 require("./app/routes/author.routes")(app);
 
 
