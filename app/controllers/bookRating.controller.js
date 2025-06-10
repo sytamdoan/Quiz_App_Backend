@@ -6,28 +6,31 @@ const getUserIdFromToken = require("../utils/getUserIdFromToken");
 const Session = db.session;
 
 exports.create = async (req, res) => {
-    try{ 
     
-        const userId = await getUserIdFromToken(req);
+    const userId = await getUserIdFromToken(req);
     
-        //create the rating entry
-        const newBookRating = {
-            userId,
-            ownedBookId: req.body.ownedBookId,
-            score: req.body.score,
-            description: req.body.description,
-            dateAdded: req.body.dateAdded
-        };
+    //create the rating entry
+    const newBookRating = {
+        userId,
+        ownedBookId: req.body.ownedBookId,
+        score: req.body.score,
+        description: req.body.description,
+        dateAdded: req.body.dateAdded
+    };
 
-        const createdBookRating = await bookRating.create(newBookRating);
-        res.status(201).json(createdBookRating);
-        
-    } catch (err) {
-        console.error("Error during creation of rating:", err);
-        res.status(500).json({
-        message: err.message || "Failed to create BookRating"
+
+    // Save book rating in the database
+    bookRating.create(newBookRating)
+        .then((data) => {
+            res.send(data);
+        })
+        .catch((err) => {
+            res.status(500).send({
+            message:
+            err.message || "Some error occurred while creating the book rating.",
+            });
         });
-    }
+
 };
 
 exports.update = async (req, res) => {

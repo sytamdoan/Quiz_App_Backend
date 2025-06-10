@@ -9,7 +9,6 @@ module.exports = (sequelize, Sequelize) => {
       },
       userId: {
         type: Sequelize.INTEGER,
-        //allowNull: true,
       },
       ownedBookId: {
         type: Sequelize.INTEGER,
