@@ -13,12 +13,11 @@ try{
     const userId = await getUserIdFromToken(req);
     const bookId = req.body.bookId;        
     const rawDate = req.body.dateAdded;
-    if (!rawPublicationDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate))) {
+    if (!rawDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate))) {
       return res.status(400).json({ message: "Date Added is required and must be valid." });
     }
     const finalDate = rawDate;
-    //Create the book
-    const givenBook = {};
+
     Book.findOne({
     where: { id: bookId },
     include: ['authors','genres','publishers'],
@@ -85,7 +84,7 @@ exports.findAll = async (req, res) => {
 exports.update = async (req, res) => {
   const id = req.params.id;
   const rawDate = req.body.dateAdded;
-    if (!rawPublicationDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate))) {
+    if (!rawDate || rawDate === "Invalid date" || isNaN(Date.parse(rawDate))) {
       return res.status(400).json({ message: "Date Added is required and must be valid." });
     }
   const finalDate = rawDate;
@@ -94,7 +93,7 @@ exports.update = async (req, res) => {
     if (!wishlistBook) {
       return res.status(404).json({ message: "Wishlist Book not found" });
     }
-    await OwnedBook.update(
+    await WishlistBook.update(
       {
         dateAdded: finalDate
       },
