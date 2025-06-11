@@ -5,7 +5,7 @@ const cohere = new CohereClient({
 
 exports.getRecommendations = async (req, res) => {
   try {
-    const books = req.body.map(entry => entry.book?.title);
+    const books = req.body.map(entry => entry.book.title);
     if (books.length === 0) {
       return res.status(400).json({ error: "Invalid input." });
     }
