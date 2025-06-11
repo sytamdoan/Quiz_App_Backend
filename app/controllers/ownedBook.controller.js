@@ -124,7 +124,7 @@ exports.update = async (req, res) => {
 
   //Validate data entry
   if (isNaN(req.body.paidAmount)) {
-    return res.status(400).json({ message: "No letters in number fields! 2" });
+    return res.status(400).json({ message: "No letters in number fields!" });
   }     
     
   if (req.body.paidAmount !== "" && req.body.paidAmount !== null && !isNaN(req.body.paidAmount) && !/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
