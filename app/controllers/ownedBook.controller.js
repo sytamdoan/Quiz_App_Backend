@@ -123,9 +123,7 @@ exports.update = async (req, res) => {
   const id = req.params.id;
 
   //Validate data entry
-  if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
-    return res.status(400).json({ message: "Title can't be empty!" });
-  } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
+  if (isNaN(req.body.paidAmount)) {
     return res.status(400).json({ message: "No letters in number fields! 2" });
   }     
     
