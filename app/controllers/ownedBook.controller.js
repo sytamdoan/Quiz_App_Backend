@@ -157,18 +157,6 @@ exports.update = async (req, res) => {
       return res.status(404).json({ message: "OwnedBook not found" });
     }
 
-    const bookId = ownedBook.bookId;
-    const bookData = req.body.book || {};
-    await Book.update(
-      {
-        title: bookData.title,
-        numPages: bookData.numPages,
-        publicationDate: bookData.publicationDate,
-        link: bookData.link,
-      },
-      { where: { id: bookId } }
-    );
-
     //update the book rating entry
     await BookRating.update(
       {
