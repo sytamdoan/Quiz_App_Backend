@@ -55,10 +55,7 @@ try{
       if (data) {
         givenBook = data;
       } else {
-        res.status(404).send({
-          message: `Cannot find Book with id=${bookId}.`,
-        });
-        return;
+        givenBook = null;
       }
     })
     .finally(async ()=>{
