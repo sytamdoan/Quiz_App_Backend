@@ -67,3 +67,4 @@ jobs:
             sudo systemctl daemon-reload
             echo "systemctl start at $(date -u)"
             sudo systemctl start bookshelf-backend
+            sudo systemctl status bookshelf-backend
