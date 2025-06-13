@@ -139,28 +139,6 @@ exports.findAll = async (req, res) => {
   }
 };
 
-// // Find all Created Books
-// exports.findAll = (req, res) => {
-//   book.findAll({
-//     where:null,
-//     include: ['authors','genres','publishers'],
-//   })
-//     .then((data) => {
-//       if (data) {
-//         res.send(data);
-//       } else {
-//         res.status(404).send({
-//           message: `Cannot find Created Books.`,
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: err.message || "Error retrieving Created Books.",
-//       });
-//     });
-// };
-
 exports.update = async (req, res) => {
   const id = req.params.id;
 
