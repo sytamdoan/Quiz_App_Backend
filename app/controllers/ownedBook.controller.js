@@ -46,41 +46,86 @@ try{
     }
     //end of validation
   
-  
-    //Create the book
-    const newBook = await Book.create({
-      title: req.body.title,
-      numPages: req.body.numPages,
-      publicationDate: finalPublicationDate,
-      link: req.body.link
-    });
-
-    //create the owned book
-    const newOwnedBook = {
-      userId,
-      bookId: newBook.id,
-      readingStatusTypesId: req.body.readingStatusTypesId || 1,
-      paidAmount: finalPaidAmount,
-      dateBought: finalDateBought,
-      userNotes: req.body.userNotes,
-    };
-  
-    const createdOwnedBook = await OwnedBook.create(newOwnedBook);
-  
-    //create the book rating entry
-    const newOwnedBookRating = await BookRating.create({
-      userId,
-      ownedBookId: createdOwnedBook.id,
-      score: req.body.score,
-      description: req.body.description,
-      dateAdded: new Date().toISOString().split('T')[0]
-    });
-  
-    res.status(201).json({
-      ownedBook: createdOwnedBook,
-      bookRating: newOwnedBookRating
-    });
-    
+    //Check if Book w title already exists
+    let givenBook;
+    Book.findOne({
+    where: { title: req.body.title },
+    })
+    .then((data)=>{
+      if (data) {
+        givenBook = data;
+      } else {
+        res.status(404).send({
+          message: `Cannot find Book with id=${bookId}.`,
+        });
+        return;
+      }
+    })
+    .finally(async ()=>{
+      let newBook;
+      let newOwnedBook;
+      let newBookRating;
+      if(givenBook)
+      {
+        console.log("Existing");
+        newOwnedBook = {
+          userId,
+          bookId: givenBook.id,
+          readingStatusTypesId: 1,
+          paidAmount: 0,
+          dateBought: new Date().toISOString().split('T')[0],
+          userNotes: "",
+        };
+        newBookRating = {
+          userId,
+          ownedBookId: 0,
+          score: 1,
+          description: "",
+          dateAdded: new Date().toISOString().split('T')[0]
+        }
+      }
+      else
+      {
+        //Create the book
+        newBook = await Book.create({
+          title: req.body.title,
+          numPages: req.body.numPages,
+          publicationDate: finalPublicationDate,
+          link: req.body.link
+        });
+        //create the owned book
+        newOwnedBook = {
+          userId,
+          bookId: newBook.id,
+          readingStatusTypesId: req.body.readingStatusTypesId || 1,
+          paidAmount: finalPaidAmount,
+          dateBought: finalDateBought,
+          userNotes: req.body.userNotes,
+        };
+        newBookRating = {
+          userId,
+          ownedBookId: 0,
+          score: req.body.score,
+          description: req.body.description,
+          dateAdded: new Date().toISOString().split('T')[0]
+        }
+      }
+      const createdOwnedBook = await OwnedBook.create(newOwnedBook);
+      newBookRating = {
+        userId,
+        ownedBookId: createdOwnedBook.id,
+        score: newBookRating.score,
+        description: newBookRating.description,
+        dateAdded: newBookRating.dateAdded
+      }
+      //create the book rating entry
+      const newOwnedBookRating = await BookRating.create(newBookRating);
+      res.status(201).json({
+        ownedBook: createdOwnedBook,
+        bookRating: newOwnedBookRating
+      });
+      return;
+    }); 
   } catch (err) {
     console.error("Error during create:", err);
     res.status(500).json({
