@@ -1,7 +1,10 @@
 const db = require("../models");
 const OwnedBook = db.OwnedBook;
-const Book = db.Book;
+const Book = db.book;
 const BookRating = db.BookRating;
+const Author = db.author;
+const Genre = db.genre;
+const Publisher = db.publisher;
 const ReadingStatusTypes = db.ReadingStatusTypes;
 const Op = db.Sequelize.Op;
 const { decrypt } = require("../authentication/crypto");
@@ -141,13 +144,30 @@ exports.findAll = async (req, res) => {
       where: { userId: userId},
       include: [
         {
-          model: db.Book,
+          model: Book,
+          include: [
+            {
+              model: Author,
+              as: 'authors',
+              through: { attributes: [] }
+            },
+            {
+              model: Genre,
+              as: 'genres',
+              through: { attributes: [] }
+            },
+            {
+              model: Publisher,
+              as: 'publishers',
+              through: { attributes: [] }
+            }
+          ]
         },
         {
-          model: db.ReadingStatusTypes,
+          model: ReadingStatusTypes,
         },
         {
-          model: db.BookRating,
+          model: BookRating,
         }
       ]
     });
@@ -165,10 +185,8 @@ exports.update = async (req, res) => {
   const id = req.params.id;
 
   //Validate data entry
-  if (req.body.title === undefined || req.body.title === "" || req.body.title === null) {
-    return res.status(400).json({ message: "Title can't be empty!" });
-  } else if (isNaN(req.body.numPages) || isNaN(req.body.paidAmount)) {
-    return res.status(400).json({ message: "No letters in number fields! 2" });
+  if (isNaN(req.body.paidAmount)) {
+    return res.status(400).json({ message: "No letters in number fields!" });
   }     
     
   if (req.body.paidAmount !== "" && req.body.paidAmount !== null && !isNaN(req.body.paidAmount) && !/^\d+(\.\d{1,2})?$/.test(req.body.paidAmount)) {
@@ -198,18 +216,6 @@ exports.update = async (req, res) => {
     if (!ownedBook) {
       return res.status(404).json({ message: "OwnedBook not found" });
     }
-
-    const bookId = ownedBook.bookId;
-    const bookData = req.body.book || {};
-    await Book.update(
-      {
-        title: bookData.title,
-        numPages: bookData.numPages,
-        publicationDate: bookData.publicationDate,
-        link: bookData.link,
-      },
-      { where: { id: bookId } }
-    );
 
     //update the book rating entry
     await BookRating.update(
