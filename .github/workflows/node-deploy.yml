@@ -57,14 +57,19 @@ jobs:
             echo "Changing directory at $(date -u)"
             cd nodeapps/bookshelf-backend
             ls
+
             echo "npm install at $(date -u)"
             npm install --verbose
+            
             echo "sudo systemctl at $(date -u)"
             sudo systemctl stop bookshelf-backend
+            
             echo "copy at $(date -u)"
             sudo cp bookshelf-backend.service /lib/systemd/system/bookshelf-backend.service
+            
             echo "systemctl reload at $(date -u)"
             sudo systemctl daemon-reload
+            
             echo "systemctl start at $(date -u)"
             sudo systemctl start bookshelf-backend
             sudo systemctl status bookshelf-backend
