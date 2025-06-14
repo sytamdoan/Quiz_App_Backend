@@ -1,8 +1,6 @@
 const db = require("../models");
 const WishlistBook = db.WishlistBook;
-const Book = db.Book;
-const Author = db.Author;
-const Genre = db.Genre;
+const Book = db.book;
 const Op = db.Sequelize.Op;
 const { decrypt } = require("../authentication/crypto");
 const getUserIdFromToken = require("../utils/getUserIdFromToken");
@@ -17,10 +15,9 @@ try{
       return res.status(400).json({ message: "Date Added is required and must be valid." });
     }
     const finalDate = rawDate;
-
+    let givenBook;
     Book.findOne({
     where: { id: bookId },
-    include: ['authors','genres','publishers'],
     })
     .then((data)=>{
       if (data) {
@@ -29,6 +26,7 @@ try{
         res.status(404).send({
           message: `Cannot find Book with id=${bookId}.`,
         });
+        return;
       }
     });
     //create the WishlistBook
@@ -39,12 +37,13 @@ try{
     };
     const createdWishlistBook = await WishlistBook.create(newWishlistBook);
     res.status(201).json(createdWishlistBook);
-    
+    return;
   } catch (err) {
     console.error("Error during create:", err);
     res.status(500).json({
       message: err.message || "Failed to create Wishlist Book"
     });
+    return;
   }
 };
 
