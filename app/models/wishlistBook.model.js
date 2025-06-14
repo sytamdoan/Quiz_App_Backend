@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
     });
   WishlistBook.associate = models => {
     WishlistBook.belongsTo(models.user, {foreignKey: 'userId'});
-    WishlistBook.belongsTo(models.Book, {foreignKey: 'bookId'});
+    WishlistBook.belongsTo(models.book, {foreignKey: 'bookId'});
   };
   return WishlistBook;
 };
