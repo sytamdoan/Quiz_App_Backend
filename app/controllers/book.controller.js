@@ -44,6 +44,7 @@ exports.create = (req, res) => {
         res.status(500).send({
           message: ex.message || "Error Creating Book Genres with id=" + id,
         });
+        return;
       }
       try{
         if(authors){
@@ -59,6 +60,7 @@ exports.create = (req, res) => {
         res.status(500).send({
           message: ex.message || "Error Creating Book Authors with id=" + id,
         });
+        return;
       }
       try{
         if(publishers){
@@ -74,6 +76,7 @@ exports.create = (req, res) => {
         res.status(500).send({
           message: ex.message || "Error Creating Book Publishers with id=" + id,
         });
+        return;
       }
       res.send(data);
     })
@@ -82,6 +85,7 @@ exports.create = (req, res) => {
         message:
           err.message || "Some error occurred while creating the Book.",
       });
+      return;
     });
 };
 // Find all Created Books
