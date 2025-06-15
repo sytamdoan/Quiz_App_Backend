@@ -7,11 +7,11 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Recipe
 exports.create = (req, res) => {
   // Validate request
-  if (req.body.title === undefined) {
+  if (req.body.title === undefined || req.body.title === "") {
     const error = new Error("Title cannot be empty for Book!");
     error.statusCode = 400;
     throw error;
-  } else if (req.body.numPages === undefined) {
+  } else if (req.body.numPages === undefined || req.body.numPages === 0) {
     const error = new Error("Number of Pages cannot be empty for Book!");
     error.statusCode = 400;
     throw error;
@@ -130,6 +130,16 @@ exports.findOne = (req, res) => {
 // Update a Book by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
+  // Validate request
+  if (req.body.title === undefined || req.body.title === "") {
+    const error = new Error("Title cannot be empty for Book!");
+    error.statusCode = 400;
+    throw error;
+  } else if (req.body.numPages === undefined || req.body.numPages === 0) {
+    const error = new Error("Number of Pages cannot be empty for Book!");
+    error.statusCode = 400;
+    throw error;
+  }
   let genres = req.body.genres;
   let authors = req.body.authors;
   let publishers = req.body.publishers;
