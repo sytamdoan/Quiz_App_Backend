@@ -1,6 +1,6 @@
 // Note: Code taken from the frontend file services.js and
 //  modified to send REST API requests to the LLM service
-import axios from "axios";
+const axios = require("axios");
 
 var baseurl = "https://api.cohere.com/v2/";
 
@@ -17,4 +17,4 @@ const apiClient = axios.create({
 });
 
 
-export default apiClient;
+module.exports = apiClient;
