@@ -36,50 +36,44 @@ exports.create = (req, res) => {
           bookId:id,
           genreId:element.id
         })
-      });
+        .then()
+        .catch(() => {
+          res.status(500).send({
+            message: ex.message || "Error Creating Book Genre with id=" + id,
+          });
+        })
+      })
     }
-  })
-  .catch((err) => {
-    res.status(500).send({
-      message: ex.message || "Error Creating Book Genres with id=" + id,
-    });
-    return;
-  })
-  
-  .then((data) => {
     if(authors){
       authors.forEach(element => {
         author_book.create({
           bookId:id,
           authorId:element.id
         })
-      });
+        .then()
+        .catch(() => {
+          res.status(500).send({
+            message: ex.message || "Error Creating Book Authors with id=" + id,
+          });
+        })
+      })
     }
-  })
-  .catch((err) => {
-    res.status(500).send({
-      message: ex.message || "Error Creating Book Authors with id=" + id,
-    });
-    return;
-  })
-  
-  .then((data) => {
     if(publishers){
       publishers.forEach(element => {
         publisher_book.create({
           bookId:id,
           publisherId:element.id
         })
-      });
+        .then()
+        .catch(() => {
+          res.status(500).send({
+            message: ex.message || "Error Creating Book Publishers with id=" + id,
+          });
+        })
+      })
     }
+    res.send(data);
   })
-  .catch((err) => {
-    res.status(500).send({
-      message: ex.message || "Error Creating Book Publishers with id=" + id,
-    });
-    return;
-  });
-  res.send(data);
 
 };
 // Find all Created Books
