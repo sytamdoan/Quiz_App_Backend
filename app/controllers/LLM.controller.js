@@ -3,7 +3,7 @@ const apiClient = require("./../utils/llmService.js").default;
 exports.getRecommendations = async (req, res) => {
   try {
     const books = req.body.map(entry => entry.book.title); // get the list of book titles=
-    if (books.length === 0) {=
+    if (books.length === 0) {
       return res.status(400).json({ error: "Invalid input." });
     }
 
