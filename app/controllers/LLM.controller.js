@@ -1,4 +1,4 @@
-const apiClient = require("./../utils/llmService.js").default;
+const apiClient = require("./../utils/llmService.js");
 
 exports.getRecommendations = async (req, res) => {
   try {
