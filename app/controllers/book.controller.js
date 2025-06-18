@@ -41,6 +41,7 @@ exports.create = (req, res) => {
           res.status(500).send({
             message: err.message || "Error Creating Book Genre with id=" + id,
           });
+          return;
         })
       })
     }
@@ -55,6 +56,7 @@ exports.create = (req, res) => {
           res.status(500).send({
             message: err.message || "Error Creating Book Authors with id=" + id,
           });
+          return;
         })
       })
     }
@@ -69,10 +71,17 @@ exports.create = (req, res) => {
           res.status(500).send({
             message: err.message || "Error Creating Book Publishers with id=" + id,
           });
+          return;
         })
       })
     }
     res.send(data);
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message: err.message || "Something went wrong",
+    });
+    return;
   })
 
 };
