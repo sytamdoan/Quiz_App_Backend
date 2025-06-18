@@ -37,9 +37,9 @@ exports.create = (req, res) => {
           genreId:element.id
         })
         .then()
-        .catch(() => {
+        .catch((err) => {
           res.status(500).send({
-            message: ex.message || "Error Creating Book Genre with id=" + id,
+            message: err.message || "Error Creating Book Genre with id=" + id,
           });
         })
       })
@@ -51,9 +51,9 @@ exports.create = (req, res) => {
           authorId:element.id
         })
         .then()
-        .catch(() => {
+        .catch((err) => {
           res.status(500).send({
-            message: ex.message || "Error Creating Book Authors with id=" + id,
+            message: err.message || "Error Creating Book Authors with id=" + id,
           });
         })
       })
@@ -65,9 +65,9 @@ exports.create = (req, res) => {
           publisherId:element.id
         })
         .then()
-        .catch(() => {
+        .catch((err) => {
           res.status(500).send({
-            message: ex.message || "Error Creating Book Publishers with id=" + id,
+            message: err.message || "Error Creating Book Publishers with id=" + id,
           });
         })
       })
