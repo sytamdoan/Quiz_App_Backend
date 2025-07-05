@@ -17,5 +17,5 @@ module.exports = (app) => {
   // Delete a Author with id
   router.delete("/Author/:id", Author.delete);
 
-  app.use("/bookshelfapi", router);
+  app.use("/quizappapi", router);
 };

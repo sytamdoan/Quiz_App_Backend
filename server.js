@@ -7,14 +7,10 @@ const app = express();
 
 const db = require("./app/models");
 
-const seedStatusTypes = require('./app/seed/seedStatus');
 
 // Sync DB
 db.sequelize.sync().then(async () => {
   console.log("Database synced.");
-
-  // Seed only if needed
-  await seedStatusTypes(db); // 👈 Run seeder with conditional logic
 });
 //db.sequelize.sync();
 
@@ -37,18 +33,8 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/auth.routes.js")(app);
-require("./app/routes/ingredient.routes")(app);
-require("./app/routes/recipe.routes")(app);
-require("./app/routes/book.routes")(app);
-require("./app/routes/genre.routes")(app);
-require("./app/routes/publisher.routes")(app);
-require("./app/routes/recipeStep.routes")(app);
-require("./app/routes/recipeIngredient.routes")(app);
-require("./app/routes/user.routes")(app);
-require("./app/routes/ownedBook.routes")(app);
-require("./app/routes/wishlistBook.routes")(app);
 require("./app/routes/author.routes")(app);
-require("./app/routes/bookRating.routes")(app);
+require("./app/routes/user.routes")(app);
 require("./app/routes/LLM.routes")(app);
 
 

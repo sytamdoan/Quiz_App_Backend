@@ -5,5 +5,5 @@ module.exports = (app) => {
   // POST request to get recommendations from Cohere
   router.post("/recommend", Cohere.getRecommendations);
 
-  app.use("/bookshelfapi", router);
+  app.use("/quizappapi", router);
 };
