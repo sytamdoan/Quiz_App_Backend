@@ -14,7 +14,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.author = require("./author.model.js")(sequelize, Sequelize);
+//db.author = require("./author.model.js")(sequelize, Sequelize);
 db.session = require("./session.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.class = require("./class.model.js")(sequelize, Sequelize);
