@@ -32,10 +32,13 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the recipe backend." });
 });
 
-require("./app/routes/auth.routes.js")(app);
-require("./app/routes/author.routes")(app);
+//require("./app/routes/auth.routes.js")(app);
+;//require("./app/routes/author.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/LLM.routes")(app);
+require("./app/routes/class.routes")(app);
+require("./app/routes/quiz.routes")(app);
+require("./app/routes/quizSession.routes")(app);
 
 
 

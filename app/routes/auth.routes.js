@@ -1,13 +1,13 @@
-module.exports = (app) => {
-  const auth = require("../controllers/auth.controller.js");
+// module.exports = (app) => {
+//   const auth = require("../controllers/auth.controller.js");
 
-  var router = require("express").Router();
+//   var router = require("express").Router();
 
-  // Login
-  router.post("/login", auth.login);
+//   // Login
+//   router.post("/login", auth.login);
 
-  // Logout
-  router.post("/logout", auth.logout);
+//   // Logout
+//   router.post("/logout", auth.logout);
 
-  app.use("/quizappapi", router);
-};
+//   app.use("/quizappapi", router);
+// };
