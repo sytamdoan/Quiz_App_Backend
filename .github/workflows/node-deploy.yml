@@ -42,7 +42,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-rltgoDzvO --delete --exclude node_modules"
           SOURCE: "deploy/"
-          REMOTE_HOST: "ec2-18-218-107-33.us-east-2.compute.amazonaws.com"
+          REMOTE_HOST: "ec2-3-144-112-181.us-east-2.compute.amazonaws.com"
           REMOTE_USER: ubuntu
           TARGET: "nodeapps/QuizApp-backend"
       - name: Execute SSH commmands on remote server
@@ -50,7 +50,7 @@ jobs:
         env:
           NAME: "Root"
         with:
-          hosts: "ubuntu@ec2-18-218-107-33.us-east-2.compute.amazonaws.com"
+          hosts: "ubuntu@ec2-3-144-112-181.us-east-2.compute.amazonaws.com"
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           debug: false
           command: |
