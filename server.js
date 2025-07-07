@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 //require("./app/routes/auth.routes.js")(app);
-//testinggg
+//testingggg
 ;//require("./app/routes/author.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/LLM.routes")(app);
