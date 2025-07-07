@@ -44,7 +44,7 @@ jobs:
           SOURCE: "deploy/"
           REMOTE_HOST: "ec2-18-218-107-33.us-east-2.compute.amazonaws.com"
           REMOTE_USER: ubuntu
-          TARGET: "nodeapps/bookshelf-backend"
+          TARGET: "nodeapps/QuizApp-backend"
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
         env:
@@ -55,21 +55,21 @@ jobs:
           debug: false
           command: |
             echo "Changing directory at $(date -u)"
-            cd nodeapps/bookshelf-backend
+            cd nodeapps/QuizApp-backend
             ls
 
             echo "npm install at $(date -u)"
             npm install --verbose
             
             echo "sudo systemctl at $(date -u)"
-            sudo systemctl stop bookshelf-backend
+            sudo systemctl stop QuizApp-backend
             
             echo "copy at $(date -u)"
-            sudo cp bookshelf-backend.service /lib/systemd/system/bookshelf-backend.service
+            sudo cp QuizApp-backend.service /lib/systemd/system/QuizApp-backend.service
             
             echo "systemctl reload at $(date -u)"
             sudo systemctl daemon-reload
             
             echo "systemctl start at $(date -u)"
-            sudo systemctl start bookshelf-backend
-            sudo systemctl status bookshelf-backend
+            sudo systemctl start QuizApp-backend
+            sudo systemctl status QuizApp-backend
