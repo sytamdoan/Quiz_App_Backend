@@ -1,5 +1,5 @@
 {
-  "name": "recipe-backend",
+  "name": "QuizApp-backend",
   "version": "1.0.0",
   "description": "Recipe Node.js with Rest API",
   "main": "server.js",
