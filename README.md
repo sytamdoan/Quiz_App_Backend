@@ -11,7 +11,7 @@ This application allows users to create and maintain a list of recipes that have
 1. Clone the project into your **XAMPP/xamppfiles/htdocs** directory.
 
 ```
-git clone https://github.com/AnNguyen3132/bookshelf-backend.git
+git clone https://github.com/AnNguyen3132/quizappapi-backend.git
 ```
 
 2. Install the project.
