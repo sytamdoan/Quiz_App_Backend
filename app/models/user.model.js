@@ -23,9 +23,8 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
     role: {
-      type: Sequelize.ENUM,
+      type: Sequelize.INTEGER,
       allowNull: false,
-      values: ['admin', 'professor', 'student']
     },
   });
 
