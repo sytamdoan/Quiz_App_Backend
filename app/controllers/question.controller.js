@@ -32,7 +32,7 @@ exports.create = async(req, res) => {
 };
 
 // Retrieve all Question from the database for the quiz.
-exports.findAll = async (req, res) => {
+exports.findAllByQuizId = async (req, res) => {
   Question.findAll({ where: {quizId: req.body.quizId} })
     .then((data) => {
       res.send(data);
