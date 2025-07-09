@@ -80,7 +80,12 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
   
-  Class.update(req.body, {
+  const updatedClass = {
+    name: req.body.name,
+    year: req.body.year,
+  };
+
+  Class.update(updatedClass, {
     where: { id: id },
   })
     .then((num) => {
