@@ -6,7 +6,7 @@ module.exports = (app) => {
   router.post("/Question/", Question.create);
 
   // Retrieve all Question relating to quizId
-  router.get("/Question/", Question.findAllByQuizId);
+  router.get("/Quiz/:quizId/Questions/", Question.findAllByQuizId);
 
   // Update a Question with id
   router.put("/Question/:id", Question.update);

@@ -33,7 +33,8 @@ exports.create = async(req, res) => {
 
 // Retrieve all Question from the database for the quiz.
 exports.findAllByQuizId = async (req, res) => {
-  Question.findAll({ where: {quizId: req.body.quizId} })
+  const quizId = req.params.quizId;
+  Question.findAll({ where: {quizId} })
     .then((data) => {
       res.send(data);
     })
