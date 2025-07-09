@@ -19,6 +19,7 @@ db.session = require("./session.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.class = require("./class.model.js")(sequelize, Sequelize);
 db.quiz = require("./quiz.model.js")(sequelize, Sequelize);
+db.question = require("./question.model.js")(sequelize, Sequelize);
 db.quizSession = require("./quizSession.model.js")(sequelize, Sequelize);
 
 // foreign key for session
@@ -59,6 +60,20 @@ db.class.hasMany(
 db.quiz.belongsTo(
   db.class,
   { as: "class" ,
+    foreignKey: { allowNull: false }, onDelete: "CASCADE"
+  }
+);
+
+// foreign key for question
+db.quiz.hasMany(
+  db.question,
+  { as: "question",
+    foreignKey: { allowNull: false }
+  }
+);
+db.question.belongsTo(
+  db.quiz,
+  { as: "quiz" ,
     foreignKey: { allowNull: false }, onDelete: "CASCADE"
   }
 );
