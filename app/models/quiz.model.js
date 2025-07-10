@@ -3,11 +3,15 @@ module.exports = (sequelize, Sequelize) => {
     name: {
       type: Sequelize.STRING,
       allowNull: false,
-    },
+      },
     type: {
       type: Sequelize.ENUM,
       allowNull: false,
       values: ['poll', 'quiz']
+      },
+    subject: {
+      type: Sequelize.STRING,
+      allowNull: false,
       },
     timeLimit: {
       type: Sequelize.INTEGER,
@@ -17,10 +21,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       },
-    questions: {
-      type: Sequelize.JSON,
+    isAnonymous: {
+      type: Sequelize.BOOLEAN,
       allowNull: false,
       },
+    
   });
 
   return Quiz;
