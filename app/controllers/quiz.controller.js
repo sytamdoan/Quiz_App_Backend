@@ -45,7 +45,7 @@ exports.create = async(req, res) => {
 
 // Retrieve all Quiz from the database for this Class.
 exports.findAll = async (req, res) => {
-  searchClassID = req.params.id;
+  const searchClassID = req.params.id;
 
   Quiz.findAll({ where: {classId: searchClassID} })
     .then((data) => {
