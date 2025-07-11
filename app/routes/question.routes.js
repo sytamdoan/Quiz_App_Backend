@@ -3,7 +3,7 @@ module.exports = (app) => {
   var router = require("express").Router();
 
   // Create a new Question
-  router.post("/Question/", Question.create);
+  router.post("/Quiz/:quizId/Question/", Question.create);
 
   // Retrieve all Question relating to quizId
   router.get("/Quiz/:quizId/Questions/", Question.findAllByQuizId);

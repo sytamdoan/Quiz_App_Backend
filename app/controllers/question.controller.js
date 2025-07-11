@@ -8,14 +8,16 @@ exports.create = async(req, res) => {
   // Validate request
   if (req.body.questionText === undefined || req.body.questionText === ""
   ) {
-    const error = new Error("Fields cannot be empty");
-    error.statusCode = 400;
-    throw error;
+    res.status(500).send({
+      message: "Fields cannot be empty.",
+    });
+
+    return;
   }
 
   // Create an Question
   const newQuestion = {
-    quizId: req.body.quizId,
+    quizId: req.params.quizId,
     questionText: req.body.questionText,
   };
   // Save Question in the database
