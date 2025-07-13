@@ -69,9 +69,11 @@ exports.update = (req, res) => {
   // Validate request
   if (req.body.questionText === undefined || req.body.questionText === ""
   ) {
-    const error = new Error("Fields cannot be empty");
-    error.statusCode = 400;
-    throw error;
+    res.status(500).send({
+      message: "Fields cannot be empty.",
+    });
+
+    return;
   }
 
   const id = req.params.id;
