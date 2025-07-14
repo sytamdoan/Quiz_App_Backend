@@ -11,11 +11,13 @@ exports.create = async(req, res) => {
     req.body.isResultsVisible === undefined || req.body.isResultsVisible === "" ||
     req.body.isAnonymous === undefined || req.body.isAnonymous === "" ||
     req.body.type === undefined || req.body.type === ""
-
   ) {
-    const error = new Error("Fields cannot be empty");
-    error.statusCode = 400;
-    throw error;
+    const errorMsg = new Error("Field(s) cannot be empty");
+    res.status(400).send({
+      message: errorMsg,
+    });
+
+    return;
   }
 
   // Create an Quiz
@@ -87,9 +89,12 @@ exports.update = (req, res) => {
     req.body.type === undefined || req.body.type === ""
 
   ) {
-    const error = new Error("Fields cannot be empty");
-    error.statusCode = 400;
-    throw error;
+    const errorMsg = new Error("Field(s) cannot be empty");
+    res.status(400).send({
+      message: errorMsg,
+    });
+
+    return;
   }
 
   // Create an Quiz
