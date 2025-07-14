@@ -12,7 +12,7 @@ exports.create = async(req, res) => {
     req.body.isAnonymous === undefined || req.body.isAnonymous === "" ||
     req.body.type === undefined || req.body.type === ""
   ) {
-    const errorMsg = new Error("Field(s) cannot be empty");
+    const errorMsg = "Field(s) cannot be empty";
     res.status(400).send({
       message: errorMsg,
     });
@@ -89,7 +89,7 @@ exports.update = (req, res) => {
     req.body.type === undefined || req.body.type === ""
 
   ) {
-    const errorMsg = new Error("Field(s) cannot be empty");
+    const errorMsg = "Field(s) cannot be empty";
     res.status(400).send({
       message: errorMsg,
     });
