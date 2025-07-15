@@ -21,6 +21,7 @@ db.class = require("./class.model.js")(sequelize, Sequelize);
 db.quiz = require("./quiz.model.js")(sequelize, Sequelize);
 db.question = require("./question.model.js")(sequelize, Sequelize);
 db.quizSession = require("./quizSession.model.js")(sequelize, Sequelize);
+db.response = require("./response.model.js")(sequelize,Sequelize);
 
 // foreign key for session
 db.user.hasMany(
@@ -106,5 +107,56 @@ db.quizSession.belongsTo(
     foreignKey: { allowNull: false }, onDelete: "CASCADE"
   }
 );
+
+// Foreign Keys for Response
+db.quizSession.hasMany(
+  db.response,
+  {
+    as: "response",
+    foreignKey: {allowNull: false}
+  }
+);
+db.response.belongsTo(
+  db.quizSession,
+  {
+    as: "quizSession",
+    foreignKey: {allowNull: false},
+    onDelete: "CASCADE"
+  }
+)
+
+db.question.hasMany(
+  db.response,
+  {
+    as: "response",
+    foreignKey: {allowNull: false}
+  }
+);
+db.response.belongsTo(
+  db.question,
+  {
+    as: "question",
+    foreignKey: {allowNull: false},
+    onDelete: "CASCADE"
+  }
+)
+
+db.user.hasMany(
+  db.response,
+  {
+    as: "response",
+    foreignKey: {allowNull: false}
+  }
+);
+db.response.belongsTo(
+  db.user,
+  {
+    as: "user",
+    foreignKey: {allowNull: false},
+    onDelete: "CASCADE"
+  }
+)
+
+
 
 module.exports = db;
