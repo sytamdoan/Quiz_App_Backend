@@ -65,6 +65,20 @@ db.quiz.belongsTo(
   }
 );
 
+// foreign key for question
+db.quiz.hasMany(
+  db.question,
+  { as: "question",
+    foreignKey: { allowNull: false }
+  }
+);
+db.question.belongsTo(
+  db.quiz,
+  { as: "quiz" ,
+    foreignKey: { allowNull: false }, onDelete: "CASCADE"
+  }
+);
+
 //foreign keys for quizSession
 db.quiz.hasMany(
   db.quizSession,
