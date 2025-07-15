@@ -95,19 +95,6 @@ db.quizSession.belongsTo(
   }
 );
 
-db.user.hasMany(
-  db.quizSession,
-  { as: "quizSession" ,
-    foreignKey: { allowNull: false }
-  }
-);
-db.quizSession.belongsTo(
-  db.user,
-  { as: "user" ,
-    foreignKey: { allowNull: false }, onDelete: "CASCADE"
-  }
-);
-
 // Foreign Keys for Response
 db.quizSession.hasMany(
   db.response,
