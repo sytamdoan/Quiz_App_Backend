@@ -5,12 +5,12 @@ const Op = db.Sequelize.Op;
 // Create and Save a new answer
 exports.create = async(req, res) => {
   // Validate request
-  if (req.body.answerText === undefined || req.body.name === "" ||
-    req.body.isCorrect === undefined || req.body.subject === ""
+  if (req.body.answerText === undefined || req.body.answerText === "" ||
+    req.body.isCorrect === undefined || req.body.isCorrect === ""
   ) {
-    const error = new Error("Fields cannot be empty");
-    error.statusCode = 400;
-    throw error;
+    return res.status(500).send({
+      message: "Fields cannot be empty.",
+    });
   }
 
   // Create an Answer
@@ -35,7 +35,6 @@ exports.create = async(req, res) => {
 
 // Retrieve all Answers from the database for this Question.
 exports.findAll = async (req, res) => {
-  console.log("Hit");
   const searchQuestionID = req.params.questionId;
 
   Answer.findAll({ where: {questionId: searchQuestionID} })
@@ -70,12 +69,12 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
   // Validate request
-  if ( req.body.answerText === undefined || req.body.name === "" ||
-    req.body.isCorrect === undefined || req.body.subject === ""
+  if (req.body.answerText === undefined || req.body.answerText === "" ||
+    req.body.isCorrect === undefined || req.body.isCorrect === ""
   ) {
-    const error = new Error("Fields cannot be empty");
-    error.statusCode = 400;
-    throw error;
+    return res.status(500).send({
+      message: "Fields cannot be empty.",
+    });
   }
 
   // Create an Answer
