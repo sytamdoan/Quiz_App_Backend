@@ -1,12 +1,12 @@
 module.exports = (app) => {
-    const Answer = require("../controllers/answer.controller.js");
+  const Answer = require("../controllers/answer.controller.js");
   var router = require("express").Router();
 
   // Create a new Answer
-  router.post("/Quiz/:id/Answer/", Answer.create);
+  router.post("/Question/:questionId/Answer/", Answer.create);
 
   // Retrieve all Answer relating to this Quiz
-  router.get("/Quiz/:id/Answer/", Answer.findAll);
+  router.get("/Question/:questionId/Answers/", Answer.findAll);
 
   // Update a Answer with id
   router.put("/Answer/:id", Answer.update);

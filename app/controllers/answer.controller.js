@@ -15,7 +15,7 @@ exports.create = async(req, res) => {
 
   // Create an Answer
   const newAnswer = {
-    classId: req.params.id,
+    questionId: req.params.questionId,
     answerText: req.body.answerText,
     isCorrect: req.body.isCorrect,
   };
@@ -36,7 +36,7 @@ exports.create = async(req, res) => {
 // Retrieve all Answers from the database for this Question.
 exports.findAll = async (req, res) => {
   console.log("Hit");
-  const searchQuestionID = req.params.id;
+  const searchQuestionID = req.params.questionId;
 
   Answer.findAll({ where: {questionId: searchQuestionID} })
     .then((data) => {
