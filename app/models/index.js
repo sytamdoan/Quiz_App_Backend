@@ -22,6 +22,7 @@ db.quiz = require("./quiz.model.js")(sequelize, Sequelize);
 db.question = require("./question.model.js")(sequelize, Sequelize);
 db.answer = require("./answer.model.js")(sequelize, Sequelize);
 db.quizSession = require("./quizSession.model.js")(sequelize, Sequelize);
+db.response = require("./response.model.js")(sequelize,Sequelize);
 
 // foreign key for session
 db.user.hasMany(
@@ -79,6 +80,20 @@ db.question.belongsTo(
   }
 );
 
+//foreign key for answer
+db.question.hasMany(
+  db.answer,
+  { as: "answer" ,
+    foreignKey: { allowNull: false }
+  }
+);
+db.answer.belongsTo(
+  db.question,
+  { as: "question" ,
+    foreignKey: { allowNull: false }, onDelete: "CASCADE"
+  }
+);
+
 //foreign keys for quizSession
 db.quiz.hasMany(
   db.quizSession,
@@ -95,31 +110,71 @@ db.quizSession.belongsTo(
   }
 );
 
-//foreign key for answer
+// Foreign Keys for Response
+db.quizSession.hasMany(
+  db.response,
+  {
+    as: "response",
+    foreignKey: {allowNull: false}
+  }
+);
+db.response.belongsTo(
+  db.quizSession,
+  {
+    as: "quizSession",
+    foreignKey: {allowNull: false},
+    onDelete: "CASCADE"
+  }
+)
+
 db.question.hasMany(
-  db.answer,
-  { as: "answer" ,
-    foreignKey: { allowNull: false }
+  db.response,
+  {
+    as: "response",
+    foreignKey: {allowNull: false}
   }
 );
-db.answer.belongsTo(
+db.response.belongsTo(
   db.question,
-  { as: "question" ,
-    foreignKey: { allowNull: false }, onDelete: "CASCADE"
+  {
+    as: "question",
+    foreignKey: {allowNull: false},
+    onDelete: "CASCADE"
+  }
+)
+
+db.answer.hasMany(
+  db.response,
+  {
+    as: "response",
+    foreignKey: {allowNull: false}
   }
 );
+db.response.belongsTo(
+  db.answer,
+  {
+    as: "answer",
+    foreignKey: {allowNull: false},
+    onDelete: "CASCADE"
+  }
+)
 
 db.user.hasMany(
-  db.quizSession,
-  { as: "quizSession" ,
-    foreignKey: { allowNull: false }
+  db.response,
+  {
+    as: "response",
+    foreignKey: {allowNull: false}
   }
 );
-db.quizSession.belongsTo(
+db.response.belongsTo(
   db.user,
-  { as: "user" ,
-    foreignKey: { allowNull: false }, onDelete: "CASCADE"
+  {
+    as: "user",
+    foreignKey: {allowNull: false},
+    onDelete: "CASCADE"
   }
-);
+)
+
+
 
 module.exports = db;
