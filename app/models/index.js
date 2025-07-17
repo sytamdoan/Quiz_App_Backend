@@ -143,6 +143,22 @@ db.response.belongsTo(
   }
 )
 
+db.answer.hasMany(
+  db.response,
+  {
+    as: "response",
+    foreignKey: {allowNull: false}
+  }
+);
+db.response.belongsTo(
+  db.answer,
+  {
+    as: "answer",
+    foreignKey: {allowNull: false},
+    onDelete: "CASCADE"
+  }
+)
+
 db.user.hasMany(
   db.response,
   {
