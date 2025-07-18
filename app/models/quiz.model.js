@@ -25,6 +25,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       },
+    isEditable: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      },
     
   });
 

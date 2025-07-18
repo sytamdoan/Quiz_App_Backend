@@ -29,7 +29,8 @@ exports.create = async(req, res) => {
     isResultsVisible: req.body.isResultsVisible,
     isAnonymous: req.body.isAnonymous,
     type: req.body.type,
-    subject: req.body.subject
+    subject: req.body.subject,
+    isEditable: true
   };
 
   // Save class in the database
