@@ -26,11 +26,11 @@ io.on('connection', (socket) => {
   console.log('Client connected');
 
   socket.on('question', (data) => {
-    io.emit(data.quizID + "question", data.question);
+    io.emit(data.quizSessionID + "question", data.question);
   });
 
   socket.on('answers', (data) => {
-    io.emit(data.quizID + "answer", data.answerSet);
+    io.emit(data.quizSessionID + "answer", data.answerSet);
   });
 });
 
