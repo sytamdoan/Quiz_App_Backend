@@ -7,6 +7,8 @@ const app = express();
 
 const db = require("./app/models");
 
+
+////THIS IS SOCKET.IO STUFF
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
@@ -22,8 +24,18 @@ server.listen(3001, () => {
 
 io.on('connection', (socket) => {
   console.log('Client connected');
-  socket.emit('sendShit', "hello");
+
+  socket.on('question', (data) => {
+    io.emit(data.quizID + "question", data.question);
+  });
+
+  socket.on('answers', (data) => {
+    io.emit(data.quizID + "answer", data.answerSet);
+  });
 });
+
+////THIS IS SOCKET.IO STUFF
+
 
 // Sync DB
 db.sequelize.sync().then(async () => {
