@@ -7,6 +7,23 @@ const app = express();
 
 const db = require("./app/models");
 
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:8081",
+  }
+});
+
+server.listen(3001, () => {
+  console.log("Socket running on port 3001");
+});
+
+io.on('connection', (socket) => {
+  console.log('Client connected');
+  socket.emit('sendShit', "hello");
+});
 
 // Sync DB
 db.sequelize.sync().then(async () => {
@@ -42,13 +59,14 @@ require("./app/routes/answer.routes.js")(app);
 require("./app/routes/quizSession.routes")(app);
 
 
-
 // set port, listen for requests
 const PORT = process.env.PORT || 3201;
+
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
   });
 }
+
 
 module.exports = app;
