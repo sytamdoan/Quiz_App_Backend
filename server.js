@@ -32,6 +32,15 @@ io.on('connection', (socket) => {
   socket.on('answers', (data) => {
     io.emit(data.quizSessionID + "answer", data.answerSet);
   });
+
+  socket.on('response', (data) => {
+    console.log(data.answer);
+    io.emit(data.quizSessionID + "response", data.answer);
+  });
+
+  socket.on('nextQuestion', (data) => {
+    io.emit(data.quizSessionID + "nextQuestion", "Next Question Loaded");
+  });
 });
 
 ////THIS IS SOCKET.IO STUFF
