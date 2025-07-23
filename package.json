@@ -27,6 +27,7 @@
     "mysql2": "^3.2.3",
     "parse": "^6.1.1",
     "sequelize": "^6.19.0",
+    "socket.io": "^4.5.4",
     "supertest": "^6.3.3"
   }
 }
