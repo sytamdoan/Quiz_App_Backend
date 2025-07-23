@@ -8,6 +8,9 @@ module.exports = (app) => {
   // Retrieve all QuizSession relating to this Quiz
   router.get("/Quiz/:quizId/QuizSession/", QuizSession.findAllByQuizId);
 
+  // Retireve one QuizSession by its ID
+  router.get("QuizSession/:id", QuizSession.findOne);
+
   // Update a QuizSession with id
   router.put("/QuizSession/:id", QuizSession.update);
 
