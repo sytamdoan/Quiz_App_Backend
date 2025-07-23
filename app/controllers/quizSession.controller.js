@@ -66,24 +66,23 @@ exports.findOne = (req, res) => {
 
 // Update a QuizSession by the id in the request
 exports.update = (req, res) => {
-  // Validate request
-  if (req.body.entryCode === undefined || req.body.entryCode === ""
-    || req.body.expirationDate === undefined || req.body.expirationDate === ""
-    || req.body.isActive === undefined || req.body.isActive === ""
-  ) {
-    res.status(500).send({
-        message: "Fields cannot be empty.",
-  });
+  const id = req.params.id;
+  const updatedQuizSession = {}
 
-    return;
+
+  if (!(req.body.entryCode === undefined || req.body.entryCode === ""))
+  {
+    updatedQuizSession.entryCode = req.body.entryCode;
+  }
+  if (!(req.body.expirationDate === undefined || req.body.expirationDate === ""))
+  {
+    updatedQuizSession.expirationDate = req.body.expirationDate;
+  }
+  if (!(req.body.isActive === undefined || req.body.isActive === ""))
+  {
+    updatedQuizSession.isActive = req.body.isActive
   }
 
-  const id = req.params.id;
-  const updatedQuizSession = {
-    entryCode: req.body.entryCode,
-    expirationDate: req.body.expirationDate,
-    isActive: req.body.isActive
-  };
 
   QuizSession.update(updatedQuizSession, {
     where: { id: id },
