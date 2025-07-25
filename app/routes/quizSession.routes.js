@@ -11,6 +11,9 @@ module.exports = (app) => {
   // Retireve one QuizSession by its ID
   router.get("/QuizSession/:id", QuizSession.findOne);
 
+  // Retireve one QuizSession by its Entry Code
+  router.get("/QuizSession/EntryCode/:EntryCode", QuizSession.findOneUsingEntryCode);
+
   // Update a QuizSession with id
   router.put("/QuizSession/:id", QuizSession.update);
 
