@@ -3,7 +3,7 @@ module.exports = (app) => {
   var router = require("express").Router();
 
   // Create a new QuizSession
-  router.post("/Quiz/:quizId/QuizSession/", QuizSession.create);
+  router.post("/Quiz/:quizId/QuizSession/", QuizSession.createByQuiz);
 
   // Retrieve all QuizSession relating to this Quiz
   router.get("/Quiz/:quizId/QuizSession/", QuizSession.findAllByQuizId);
@@ -16,7 +16,9 @@ module.exports = (app) => {
 
   // Delete a QuizSession with id
   router.delete("/QuizSession/:id", QuizSession.delete);
-
+  
+  // Create a new QuizSession
+  router.post("/QuizSession/", QuizSession.create);
 
   app.use("/quizappapi", router);
 };

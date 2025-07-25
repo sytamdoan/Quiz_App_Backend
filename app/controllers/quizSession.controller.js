@@ -1,9 +1,10 @@
 const db = require("../models");
 const QuizSession = db.quizSession;
 const Op = db.Sequelize.Op;
+const makeCode = require("../utils/entryCodeGenerator");
 
-// Create and Save a new question
-exports.create = async(req, res) => {
+// Create and Save a new question using quiz id from route
+exports.createByQuiz = async(req, res) => {
   // Validate request
   if (req.body.entryCode === undefined || req.body.entryCode === ""
     || req.body.expirationDate === undefined || req.body.expirationDate === ""
@@ -46,6 +47,44 @@ exports.findAllByQuizId = async (req, res) => {
         message:
           err.message || "Some error occurred while retrieving the QuizSessions.",
       });
+    });
+};
+    
+
+// Create and Save a new QuizSession
+exports.create = async(req, res) => {
+  // Validate request
+  if (req.body.quizId === undefined) { 
+    const errorMsg = "Need associated Quiz";
+    res.status(400).send({
+      message: errorMsg,
+    });
+
+    return;
+  }
+
+  //IsActive, Expiration Date, and the Quiz code should all get set here
+  let tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1); // add a day
+
+  // Create an Quiz
+  const newQuizSession = {
+    quizId: req.body.quizId,
+    isActive: true,
+    expirationDate: tomorrow,
+    entryCode: makeCode()
+  };
+
+  // Save class in the database
+  QuizSession.create(newQuizSession)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the QuizSession.",
+        });
     });
 };
 
