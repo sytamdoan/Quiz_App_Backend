@@ -52,3 +52,23 @@ exports.findOne = (req, res) => {
       });
     });
 };
+
+// end a QuizSession with an id
+exports.endSession = (req, res) => {
+  const id = req.params.sessionId;
+
+  QuizSession.update(
+     {isActive : false},
+     {where: { id: id }}
+     )
+    .then(() => {
+      res.send({
+          message: "Quiz no longer active",
+        });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error ending QuizSession with id=" + id,
+      });
+    });
+};

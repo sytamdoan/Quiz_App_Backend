@@ -8,5 +8,8 @@ module.exports = (app) => {
   // Retrieve QuizSession by sessionId
   router.get("/QuizSession/:sessionId", QuizSession.findOne);
 
+  // end QuizSession by sessionId
+  router.put("/QuizSession/:sessionId", QuizSession.endSession);
+
   app.use("/quizappapi", router);
 };
