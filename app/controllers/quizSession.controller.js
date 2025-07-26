@@ -103,10 +103,30 @@ exports.findOne = (req, res) => {
     });
 };
 
+
+// Find a single QuizSession with an entry code
+exports.findOneUsingEntryCode = (req, res) => {
+  const currentEntryCode = req.params.EntryCode;
+
+  QuizSession.findOne({
+    where: {
+      EntryCode: currentEntryCode,
+      isActive: true,
+    },
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error retrieving QuizSession with Entry Code=" + currentEntryCode,
+      });
+    });
+};
+
 // end a QuizSession with an id
 exports.endSession = (req, res) => {
   const id = req.params.sessionId;
-
   QuizSession.update(
      {isActive : false},
      {where: { id: id }}

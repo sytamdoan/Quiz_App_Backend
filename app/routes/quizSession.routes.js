@@ -11,6 +11,9 @@ module.exports = (app) => {
   // Retireve one QuizSession by its ID
   router.get("/QuizSession/:id", QuizSession.findOne);
 
+  // Retireve one QuizSession by its Entry Code
+  router.get("/QuizSession/EntryCode/:EntryCode", QuizSession.findOneUsingEntryCode);
+
   // Update a QuizSession with id
   router.put("/QuizSession/:id", QuizSession.update);
 
@@ -21,7 +24,7 @@ module.exports = (app) => {
   router.post("/QuizSession/", QuizSession.create);
 
   // end QuizSession by sessionId
-  router.put("/QuizSession/:sessionId", QuizSession.endSession);
+  router.put("/QuizSession/EndSession/:sessionId", QuizSession.endSession);
 
   app.use("/quizappapi", router);
 };

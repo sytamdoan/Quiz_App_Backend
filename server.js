@@ -38,6 +38,10 @@ io.on('connection', (socket) => {
     io.emit(data.quizSessionID + "response", data.answer);
   });
 
+  socket.on('end', (data) => {
+    io.emit(data.quizSessionID + "end");
+  });
+
   socket.on('nextQuestion', (data) => {
     io.emit(data.quizSessionID + "nextQuestion", "Next Question Loaded");
   });
