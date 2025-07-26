@@ -1,5 +1,7 @@
 const db = require("../models");
 const Quiz = db.quiz;
+const Question = db.question;
+const Answer = db.answer;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new class
@@ -153,4 +155,55 @@ exports.delete = (req, res) => {
         message: err.message || "Could not delete Quiz with id=" + id,
       });
     });
+};
+
+exports.duplicateQuiz = async (req, res) => {
+  const quizId = req.params.id;
+
+  try {
+    // Find original quiz
+    const originalQuiz = await Quiz.findByPk(quizId);
+    if (!originalQuiz) return res.status(404).json({ message: "Original quiz not found." });
+
+    // Create duplicate quiz
+    const newQuiz = await Quiz.create({
+      classId: originalQuiz.classId,
+      name: originalQuiz.name + " (Copy)",
+      year: originalQuiz.year,
+      timeLimit: originalQuiz.timeLimit,
+      isResultsVisible: originalQuiz.isResultsVisible,
+      isAnonymous: originalQuiz.isAnonymous,
+      type: originalQuiz.type,
+      subject: originalQuiz.subject,
+      isEditable: true
+    });
+
+    // Get all the questions that match the originalQuizID
+    const questions = await Question.findAll({ where: { quizId: originalQuiz.id } });
+
+    for (const question of questions) {
+      // Create duplicated questions to match the original quiz questions
+      const newQuestion = await Question.create({
+        quizId: newQuiz.id,
+        questionText: question.questionText
+      });
+
+      // Get the answers for the questions from the original quiz answers
+      const answers = await Answer.findAll({ where: { questionId: question.id } });
+
+      for (const answer of answers) {
+        // Create duplicated answers from original
+        await Answer.create({
+          questionId: newQuestion.id,
+          answerText: answer.answerText,
+          isCorrect: answer.isCorrect
+        });
+      }
+    }
+
+    res.status(200).json({ message: "Quiz duplicated successfully", newQuizId: newQuiz.id });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to duplicate quiz", error: err.message });
+  }
 };

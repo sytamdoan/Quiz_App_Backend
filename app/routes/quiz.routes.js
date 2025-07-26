@@ -5,6 +5,9 @@ module.exports = (app) => {
   // Create a new Quiz
   router.post("/Class/:id/Quiz/", Quiz.create);
 
+  // Create a new Quiz as a duplicate of one
+  router.post("/Quiz/:id/duplicate", Quiz.duplicateQuiz);
+
   // Retrieve all Quiz relating to this Class
   router.get("/Class/:id/Quiz/", Quiz.findAll);
 
