@@ -9,7 +9,7 @@ module.exports = (app) => {
   router.get("/Quiz/:quizId/QuizSession/", QuizSession.findAllByQuizId);
 
   // Retireve one QuizSession by its ID
-  router.get("QuizSession/:id", QuizSession.findOne);
+  router.get("/QuizSession/:id", QuizSession.findOne);
 
   // Update a QuizSession with id
   router.put("/QuizSession/:id", QuizSession.update);
@@ -19,6 +19,9 @@ module.exports = (app) => {
   
   // Create a new QuizSession
   router.post("/QuizSession/", QuizSession.create);
+
+  // end QuizSession by sessionId
+  router.put("/QuizSession/:sessionId", QuizSession.endSession);
 
   app.use("/quizappapi", router);
 };
