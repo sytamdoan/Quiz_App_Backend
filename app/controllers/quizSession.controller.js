@@ -115,7 +115,6 @@ exports.findOneUsingEntryCode = (req, res) => {
     },
   })
     .then((data) => {
-      console.log("FOUND IT");
       res.send(data);
     })
     .catch((err) => {
@@ -128,7 +127,6 @@ exports.findOneUsingEntryCode = (req, res) => {
 // end a QuizSession with an id
 exports.endSession = (req, res) => {
   const id = req.params.sessionId;
-
   QuizSession.update(
      {isActive : false},
      {where: { id: id }}

@@ -24,7 +24,7 @@ module.exports = (app) => {
   router.post("/QuizSession/", QuizSession.create);
 
   // end QuizSession by sessionId
-  router.put("/QuizSession/:sessionId", QuizSession.endSession);
+  router.put("/QuizSession/EndSession/:sessionId", QuizSession.endSession);
 
   app.use("/quizappapi", router);
 };
