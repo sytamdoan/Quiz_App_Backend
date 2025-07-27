@@ -8,6 +8,9 @@ module.exports = (app) => {
   // Retrieve all Question relating to quizId
   router.get("/Quiz/:quizId/Questions/", Question.findAllByQuizId);
 
+  // Retrieve one Question
+  router.get("/Question/:id", Question.findOne)
+
   // Update a Question with id
   router.put("/Question/:id", Question.update);
 
