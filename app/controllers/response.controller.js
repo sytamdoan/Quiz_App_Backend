@@ -8,8 +8,7 @@ exports.create = async(req, res) => {
   // Validate request
   if (checkEmpty(req.body.quizSessionId)
     || checkEmpty(req.body.questionId)
-    || checkEmpty(req.body.answerId)
-    || checkEmpty(req.body.userId)) {
+    || checkEmpty(req.body.answerId)) {
       res.status(400).send({ message: "Fields cannot be empty." })
       return;
   }
