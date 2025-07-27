@@ -161,7 +161,7 @@ exports.duplicateQuiz = async (req, res) => {
   const quizId = req.params.id;
 
   try {
-    // Find original quiz
+    // Find the quiz you want to copy
     const originalQuiz = await Quiz.findByPk(quizId);
     if (!originalQuiz) return res.status(404).json({ message: "Original quiz not found." });
 
@@ -179,7 +179,11 @@ exports.duplicateQuiz = async (req, res) => {
     });
 
     // Get all the questions that match the originalQuizID
-    const questions = await Question.findAll({ where: { quizId: originalQuiz.id } });
+    const questions = await Question.findAll({
+      where: {
+        quizId: originalQuiz.id
+      }
+    });
 
     for (const question of questions) {
       // Create duplicated questions to match the original quiz questions
@@ -189,7 +193,11 @@ exports.duplicateQuiz = async (req, res) => {
       });
 
       // Get the answers for the questions from the original quiz answers
-      const answers = await Answer.findAll({ where: { questionId: question.id } });
+      const answers = await Answer.findAll({
+        where: {
+          questionId: question.id
+        }
+      });
 
       for (const answer of answers) {
         // Create duplicated answers from original
