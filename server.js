@@ -82,6 +82,7 @@ require("./app/routes/quiz.routes")(app);
 require("./app/routes/question.routes.js")(app);
 require("./app/routes/answer.routes.js")(app);
 require("./app/routes/quizSession.routes")(app);
+require("./app/routes/response.routes.js")(app);
 
 
 // set port, listen for requests
