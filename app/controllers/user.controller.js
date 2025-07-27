@@ -130,6 +130,29 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Find a single User with an id
+exports.getNames = (req, res) => {
+  const id = req.params.id;
+
+  User.findByPk(id, {
+    attributes: ['firstName', 'lastName']
+  })
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find User with id = ${id}.`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error retrieving User with id = " + id,
+      });
+    });
+};
+
 // Find a single User with an email
 exports.findByEmail = (req, res) => {
   const email = req.params.email;
