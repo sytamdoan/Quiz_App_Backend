@@ -2,19 +2,28 @@ const apiClient = require("./../utils/llmService.js");
 
 exports.getRecommendations = async (req, res) => {
   try {
-    const books = req.body.map(entry => entry.book.title); // get the list of book titles=
-    if (books.length === 0) {
+    if (req.body.subject === undefined || req.body.subject === '' || req.body.type === undefined || req.body.type === '') {
       return res.status(400).json({ error: "Invalid input." });
     }
-
-    const bookList = books.join(", "); // convert list of books into a single string list
+    const type = req.body.type;
+    const subject = req.body.subject;
     // Create a prompt for the cohere ai to use
-    const prompt = `Based on the following list of books: ${bookList}, recommend some similar books the I might enjoy. Give your response in JSON format. I only need the book's name, publishers and author. Include literally nothing else, just the JSON request itself.
-    Don't give me the genre, just books, authors, and publishers. Just a list of books and nothing else. Do not recommend me an entire series, if you do just pick the first book.`;
-    
+    let prompt;
+    if(type === "quiz")
+    prompt = `Generate me a ${type} with 10 question about '${subject}' in the following format:{"questionText":""}
+    with 4 answers for each question with at least one correct answer in the following format:
+    {"answerText":"", "isCorrect":true}. Give your response in JSON format.`;
+    else
+    prompt = `Generate me a ${type} with 10 question about '${subject}' in the following format:{"questionText":""}
+    with 4 answers for each question in the following format:
+    {"answerText":"", "isCorrect":true}. Give your response in JSON format.`;
     // Construct the body for the REST API request
     const body = {
       "messages": [
+        {
+				"role": "system",
+				"content": "You are a Academic assistant"
+			  },
         {
           "role": "user",
           "content": [
