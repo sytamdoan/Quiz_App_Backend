@@ -1,6 +1,7 @@
 const db = require("../models");
 const Answer = db.answer;
 const Op = db.Sequelize.Op;
+const checkEmpty = require("../utils/checkEmpty");
 
 // Create and Save a new answer
 exports.create = async(req, res) => {
@@ -48,6 +49,33 @@ exports.findAll = async (req, res) => {
       });
     });
 };
+
+// Retrieve Answers by using req.body as a filter
+exports.findAllByFilter = async (req, res) => {
+  // Get data to filter for
+  const filter = {};
+  if (!checkEmpty(req.body.answerId)) {
+    filter.answerId = req.body.answerId;
+  }
+  if (!checkEmpty(req.body.answerText)) {
+    filter.answerText = {[Op.like]: '%'+req.body.answerText+'%'};
+  }
+  if (!checkEmpty(req.body.questionId)) {
+    filter.questionId = req.body.questionId;
+  }
+  if (!checkEmpty(req.body.isCorrect)) {
+    filter.isCorrect = req.body.isCorrect;
+  }
+
+  // Retrieve the answers using the filter
+  Answer.findAll({ where: filter })
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((err) => {
+      res.status(500).send({message: err.message || "Some error occurred"}) 
+    })
+}
 
 // Find a single Answer with an id
 exports.findOne = (req, res) => {
