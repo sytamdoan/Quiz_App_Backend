@@ -54,17 +54,17 @@ exports.findAll = async (req, res) => {
 exports.findAllByFilter = async (req, res) => {
   // Get data to filter for
   const filter = {};
-  if (!checkEmpty(req.body.answerId)) {
-    filter.answerId = req.body.answerId;
+  if (!checkEmpty(req.query.answerId)) {
+    filter.answerId = req.query.answerId;
   }
-  if (!checkEmpty(req.body.answerText)) {
-    filter.answerText = {[Op.like]: '%'+req.body.answerText+'%'};
+  if (!checkEmpty(req.query.answerText)) {
+    filter.answerText = {[Op.like]: '%'+req.query.answerText+'%'};
   }
-  if (!checkEmpty(req.body.questionId)) {
-    filter.questionId = req.body.questionId;
+  if (!checkEmpty(req.query.questionId)) {
+    filter.questionId = req.query.questionId;
   }
-  if (!checkEmpty(req.body.isCorrect)) {
-    filter.isCorrect = req.body.isCorrect;
+  if (!checkEmpty(req.query.isCorrect)) {
+    filter.isCorrect = req.query.isCorrect;
   }
 
   // Retrieve the answers using the filter
