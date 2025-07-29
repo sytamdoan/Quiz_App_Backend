@@ -46,7 +46,7 @@ exports.findAll = async (req, res) => {
     filter.userId = req.body.userId;
   }
 
-  model.findAll({ where: req.body })
+  model.findAll({ where: filter })
     .then((data) => {
       res.send(data)
     })
