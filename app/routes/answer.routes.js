@@ -8,6 +8,9 @@ module.exports = (app) => {
   // Retrieve all Answer relating to this Quiz
   router.get("/Question/:questionId/Answers/", Answer.findAll);
 
+  // Retrieve Answers using req.body as filters
+  router.get("/Answer/filter", Answer.findAllByFilter)
+
   // Retrive one Answer
   router.get("/Answer/:id", Answer.findOne);
 
