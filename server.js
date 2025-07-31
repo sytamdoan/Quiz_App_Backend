@@ -34,7 +34,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('response', (data) => {
-    console.log(data);
     io.emit(data.quizSessionID + "response", data);
   });
 
