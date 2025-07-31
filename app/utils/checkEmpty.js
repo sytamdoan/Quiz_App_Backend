@@ -1,6 +1,6 @@
 
 function checkEmpty(data) {
-  if (data === undefined || data === "" ) {
+  if (data === undefined || data === "" || data === null) {
     return true;
   }
 
