@@ -33,20 +33,20 @@ exports.create = async(req, res) => {
 exports.findAll = async (req, res) => {
   // Collect filters
   const filter = {};
-  if (!checkEmpty(req.body.quizSessionId)) {
-    filter.quizSessionId = req.body.quizSessionId;
+  if (!checkEmpty(req.query.quizSessionId)) {
+    filter.quizSessionId = req.query.quizSessionId;
   }
-  if (!checkEmpty(req.body.questionId)) {
-    filter.questionId = req.body.questionId;
+  if (!checkEmpty(req.query.questionId)) {
+    filter.questionId = req.query.questionId;
   }
-  if (!checkEmpty(req.body.answerId)) {
-    filter.answerId = req.body.answerId;
+  if (!checkEmpty(req.query.answerId)) {
+    filter.answerId = req.query.answerId;
   }
-  if (!checkEmpty(req.body.userId)) {
-    filter.userId = req.body.userId;
+  if (!checkEmpty(req.query.userId)) {
+    filter.userId = req.query.userId;
   }
 
-  model.findAll({ where: req.body })
+  model.findAll({ where: filter })
     .then((data) => {
       res.send(data)
     })
