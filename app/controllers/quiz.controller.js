@@ -65,18 +65,46 @@ exports.findAll = async (req, res) => {
 };
 
 // Find a single Quiz with an id
-exports.findOne = (req, res) => {
+exports.findOneById = (req, res) => {
   const id = req.params.id;
-
-  Author.findByPk(id)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Error retrieving Author with id=" + id,
-      });
+  Quiz.findAll({
+    where:null,
+    include: ['question'],
+  })
+  .then((data) => {
+    data = data.filter( c=>{
+      return c.id == id;
+    })[0];
+    res.send(data);
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message: err.message || "Error retrieving Quiz with Id=" + id,
     });
+  });
+};
+
+// Find a single Quiz with a questionId
+exports.findOneByQuestionId = (req, res) => {
+  const questionId = req.params.questionId;
+  Quiz.findAll({
+    where:null,
+    include: ['question'],
+  })
+  .then((data) => {
+      data = data.filter( c=>{
+        let filtered = c.question.filter(k => {
+          return k.id == questionId;
+        });
+        return filtered.length == 1
+      })[0];
+      res.send(data);
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message: err.message || "Error retrieving Quiz with questionId=" + questionId,
+    });
+  });
 };
 
 // Update a Quiz by the id in the request
