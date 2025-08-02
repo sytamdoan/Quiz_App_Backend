@@ -11,6 +11,12 @@ module.exports = (app) => {
   // Retrieve all Quiz relating to this Class
   router.get("/Class/:id/Quiz/", Quiz.findAll);
 
+  // Retrieve a Quiz by a Question iD
+  router.get("/Quiz/:questionId/Question/", Quiz.findOneByQuestionId);
+
+  // Retrieve a Quiz by an iD
+  router.get("/Quiz/:id", Quiz.findOneById);
+
   // Update a Quiz with id
   router.put("/Quiz/:id", Quiz.update);
 
