@@ -243,3 +243,27 @@ exports.duplicateQuiz = async (req, res) => {
     res.status(500).json({ message: "Failed to duplicate quiz", error: err.message });
   }
 };
+
+// Mark a quiz as having a session that has been started using it  (set isEditable to false)
+exports.lockQuiz = async (req, res) => {
+  const quizId = req.params.id;
+
+  try {
+    const [updated] = await Quiz.update(
+      {
+        isEditable: false
+      },
+      {
+        where: { id: quizId }
+      }
+    );
+
+    if (updated === 1) {
+      res.send({ message: `Quiz ${quizId} started and isEditable set to false.` });
+    } else {
+      res.status(404).send({ message: `Quiz ${quizId} not found.` });
+    }
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Error locking quiz." });
+  }
+};
