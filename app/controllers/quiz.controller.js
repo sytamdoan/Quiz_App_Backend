@@ -185,6 +185,29 @@ exports.delete = (req, res) => {
     });
 };
 
+exports.getQuestionAnswer = async (req, res) => {
+  const quizId = req.params.id;
+
+  try {
+    // Get the Questions with answers
+    Question.findAll({
+      where: quizId,
+      include: ['answer']
+    })
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error retrieving Questions with answers",
+      });
+    })
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to get answer key", error: err.message });
+  }
+}
+
 exports.duplicateQuiz = async (req, res) => {
   const quizId = req.params.id;
 
