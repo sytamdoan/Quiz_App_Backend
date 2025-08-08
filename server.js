@@ -14,7 +14,7 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server, {
   cors: {
-    origin: "http://ec2-3-144-112-181.us-east-2.compute.amazonaws.com:8081",
+    origin: "http://ec2-3-144-112-181.us-east-2.compute.amazonaws.com",
   }
 });
 
