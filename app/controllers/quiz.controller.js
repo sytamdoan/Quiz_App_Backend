@@ -196,7 +196,8 @@ exports.getAnswerKey = async (req, res) => {
           model: Answer,
           as: 'answer',
           attributes: ['id'],
-          where: { isCorrect: true }
+          where: { isCorrect: true },
+          required: false // keeps questions without correct answers
         }],
         attributes: ['id']
     })
