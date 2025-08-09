@@ -186,12 +186,12 @@ exports.delete = (req, res) => {
 };
 
 exports.getAnswerKey = async (req, res) => {
-  const quizId = req.params.id;
+  const quizId = req.params.quizId;
 
   try {
     // Get the Questions with answers
     Question.findAll({
-      where: quizId,
+      where: {quizId: quizId},
       include: [{
           model: Answer,
           as: 'answer',
