@@ -17,8 +17,8 @@ module.exports = (app) => {
   // Retrieve a Quiz by an iD
   router.get("/Quiz/:id", Quiz.findOneById);
 
-  // Retrieve questions and answers by ID
-  router.get("/Quiz/:quizId/Question/Answer", Quiz.getQuestionAnswer)
+  // Retrieve answerkey by ID
+  router.get("/Quiz/:quizId/AnswerKey", Quiz.getAnswerKey)
 
   // Update a Quiz with id
   router.put("/Quiz/:id", Quiz.update);

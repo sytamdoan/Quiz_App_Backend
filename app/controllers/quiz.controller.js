@@ -185,14 +185,20 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.getQuestionAnswer = async (req, res) => {
+exports.getAnswerKey = async (req, res) => {
   const quizId = req.params.id;
 
   try {
     // Get the Questions with answers
     Question.findAll({
       where: quizId,
-      include: ['answer']
+      include: [{
+          model: Answer,
+          as: 'answer',
+          attributes: ['id'],
+          where: { isCorrect: true }
+        }],
+        attributes: ['id']
     })
     .then((data) => {
       res.send(data)
