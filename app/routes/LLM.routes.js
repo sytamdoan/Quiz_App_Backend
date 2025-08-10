@@ -5,5 +5,8 @@ module.exports = (app) => {
   // POST request to get recommendations from Cohere
   router.post("/recommend", Cohere.getRecommendations);
 
+    // POST request to Generate Whole Quiz for Class from Cohere
+  router.post("/generateQuiz/:id", Cohere.generateQuizForClass);
+
   app.use("/quizappapi", router);
 };
